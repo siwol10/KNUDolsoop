@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title> 제목 </title>
+    <!-- head에 개별 head 추가 가능 -->
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <div class="main-top">
+        <div class="main-left">
+            <div class="main-left-title">
+                돌숲
+            </div>
+            <div class="main-left-content">
+                <br>나무가 성장하듯<br>
+                아이들이 잘 성장할 수 있도록
+            </div>
+        </div>
+        <div class="main-center">
+            <img src="../images/main_icon.png" alt="main_image">
+        </div>
+        <div class="main-right">
+            <div class="main-right-topbox">
+                <div class="main-right-topbox-content">
+                    돌숲의 서비스를 바로 이용하려면?
+                </div>
+                <button class="main-right-topbox-leftbox" th:onclick="|location.href='@{/signUpPick}'|">
+                    회원가입
+                </button>
+                <button class="main-right-topbox-rightbox" th:onclick="|location.href='@{/login}'|">
+                    로그인
+                </button>
+            </div>
+            <button class="main-right-botbox"
+                    th:onclick="|location.href='@{/urgent}'|">
+                긴급 호출 바로가기 >
+            </button>
+        </div>
+    </div>
+
+    <div class="bottom-box-container">
+        <div class="bottom-box" id="box1">
+            <img src="../images/care_img.png" alt="careimg">
+            <div class="bottom-box-title">
+                돌보미
+            </div>
+            <div class="bottom-box-content">
+                찾고 있는 시터가 있으신가요?
+            </div>
+        </div>
+        <div class="bottom-box" id="box2">
+            <img src="../images/family_img.png" alt="familyimg" class="bottom-box-img">
+            <div class="bottom-box-title">
+                보호자
+            </div>
+            <div class="bottom-box-content">
+                구인 중인 보호자를 찾으시나요?
+            </div>
+        </div>
+        <button class="bottom-box" id="box3" th:onclick="|location.href='@{/careInfo}'|">
+            <img src="../images/info_img.png" alt="careimg">
+            <div class="bottom-box-title">
+                보육 정보
+            </div>
+            <div class="bottom-box-content">
+                다양한 보육 정보를 확인하고 싶으신가요?
+            </div>
+        </button>
+
+    </div>
+
+
+
+</th:block>
+</body>
+
+</html>

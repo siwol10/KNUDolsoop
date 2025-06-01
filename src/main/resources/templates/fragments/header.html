@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="header">
+
+    <div id="topnavbar--wrap">
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" th:href=@{/signUpPick}>회원가입</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href=@{/login}>로그인</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">공지사항</a>
+            </li>
+        </ul>
+    </div>
+    <div id="navbar-nav--wrap">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href=@{/}>돌숲</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" th:href=@{/intro}>서비스 소개</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                돌보미
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">이력서 둘러보기</a></li>
+                                <li><a class="dropdown-item" th:href=@{/resume}>이력서 작성하기</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                보호자
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">돌봄요청공고</a></li>
+                                <li><a class="dropdown-item" th:href=@{/careForm}>돌봄신청</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href=@{/careInfo}>보육정보</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" th:href=@{/urgent} role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                긴급
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href=@{/urgent}>긴급호출공고</a></li>
+                                <li><a class="dropdown-item" th:href=@{/urgent/form}>긴급호출신청</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <hr class="header-hr">
+
+</th:block>
+</html>

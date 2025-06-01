@@ -1,0 +1,78 @@
+.intro-container{
+    padding:30px 15px;
+
+}
+
+.intro-chap{
+
+    margin:20px 80px 0px 80px;
+
+}
+
+.intro-title{
+    font-weight:bold;
+    font-size:24px;
+
+}
+
+.greenbar{
+    border-color:#B2E800;
+    border-width:3px;
+    width:170px;
+    margin-top:5px;
+}
+
+.intro-service {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2열로 구성 */
+      gap: 30px;                             /* 박스 사이 간격 */
+      justify-content: center;              /* 가운데 정렬 */
+      max-width: 1000px;
+      margin: 0 auto;                        /* 전체 가운데 정렬 */
+      padding: 20px;
+    }
+
+    .service-box {
+      width: 400px;                          /* 원하는 박스 크기 */
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .box-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .box-content {
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+.box-greenbar{
+    border-color:#B2E800;
+    border-width:3px;
+
+}
+
+.accordion-body-second {
+    padding-left: 30px;
+}
+
+.button-example {
+      border: 1px solid;
+      color: white;
+      background-color: #08612C;
+      pointer-events: none;
+  }
+
+#accordionExample{
+    --bs-accordion-active-bg: #F3FFCC;
+    --bs-accordion-btn-focus-box-shadow: none;
+      box-shadow: none;
+}

@@ -1,0 +1,57 @@
+h4 {
+    font-weight: 700;
+}
+
+section {
+    margin: 80px 20%;
+}
+
+.frame {
+	margin: 60px auto;
+	text-align: center;
+}
+
+table {
+	width: 80%;
+	margin: auto;
+	border-spacing: 0;
+	border-style: none;
+	padding: 0;
+}
+
+th {
+	height: 40px;
+	border: 1px solid white;
+	background-color: green;
+	color: white;
+}
+
+#left {
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+#right {
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+td {
+	height: 45px;
+	border: 1px solid green;
+	background-color: white;
+	color: green;
+}
+
+#blank {
+	height: 5px;
+	border-style: none;
+}
+
+#noForm {
+    color: green;
+}
+
+.pageBar {
+    padding: 25px;
+}

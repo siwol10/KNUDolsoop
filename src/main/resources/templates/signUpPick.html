@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <title> 회원 선택 </title>
+    <!-- head에 개별 head 추가 가능 -->
+    <link rel="stylesheet" th:href="@{/css/signUpPick.css}">
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <div class="wrapper">
+        <h2>회원가입</h2>
+        <div class="box-container">
+            <div class="type-container">
+                <a th:href="@{/signUpSitter}" class="type-card">
+                    <div class="type-icon">👶</div>
+                    <div class="type-text">돌보미 회원가입</div>
+                </a>
+
+                <a th:href="@{/signUpParents}" class="type-card">
+                    <div class="type-icon">👨‍👧</div>
+                    <div class="type-text">보호자 회원가입</div>
+                </a>
+            </div>
+        </div>
+        <div></div>
+    </div>
+</th:block>
+</body>
+
+</html>

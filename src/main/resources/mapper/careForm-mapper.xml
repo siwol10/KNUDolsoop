@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CareForm">
+    <insert id="save" parameterType="com.example.SpringBoot.careForm.dto.CareFormDTO">
+        INSERT INTO care_form (
+        mem_num, title, region,
+        care_type, care_day, care_start_time, care_end_time, pay, request
+        )
+        VALUES (
+        #{memNum}, #{title}, #{region},
+        #{careType}, #{careDay}, #{careStartTime}, #{careEndTime}, #{pay}, #{request}
+        )
+    </insert>
+
+    <select id="findByMemNum" parameterType="long" resultType="com.example.SpringBoot.careForm.dto.CareFormDTO">
+        SELECT * FROM care_form WHERE mem_num = #{memNum}
+    </select>
+
+
+</mapper>

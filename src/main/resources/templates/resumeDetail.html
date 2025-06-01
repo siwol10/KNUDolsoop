@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>시터 이력서 상세</title>
+    <link rel="stylesheet" th:href="@{/css/resumeDetail.css}">
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <div class="resume-title" th:text="'&quot;' + ${resume.name} + '&quot;님의 이력서'"></div>
+
+    <div class="resume-container">
+        <div class="left-panel">
+            <img th:src="${resume.photo != null} ? ${resume.photo} : '../images/member_profile.png'" alt="profile"
+                 class="profile-img">
+            <div class="review">후기</div>
+            <div class="review-box">
+                <div class="review-rating">★★★★★</div>
+                <div class="review-writer">홍길동</div>
+                <div class="review-content">아이에게 신경을 많이 써주셨습니다.</div>
+            </div>
+
+            <div class="review-box">
+                <div class="review-rating">★★★★☆</div>
+                <div class="review-writer">아무개</div>
+                <div class="review-content">친절하시고 신뢰감 있게 맡길 수 있었어요.</div>
+            </div>
+
+            <div class="review-box">
+                <div class="review-rating">★★★★★</div>
+                <div class="review-writer">가나딩</div>
+                <div class="review-content">다음에도 꼭 부탁드리고 싶어요.</div>
+            </div>
+        </div>
+
+
+        <div class="right-panel">
+            <div class="form-group">
+                <label>이름</label>
+                <input type="text" th:value="${resume.name}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>나이</label>
+                <input type="text" th:value="${resume.age}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>연락처</label>
+                <input type="text" th:value="${resume.phoneNumber}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>지역</label>
+                <input type="text" th:value="${resume.region}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>돌봄 형태</label>
+                <input type="text" th:value="${resume.careType}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>돌봄 가능 요일</label><br>
+                <input type="text" th:value="${resume.careDay}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>시작 시간</label>
+                <input type="text" th:value="${#strings.substring(resume.careStartTime, 0, 5)}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>종료 시간</label>
+                <input type="text" th:value="${#strings.substring(resume.careEndTime, 0, 5)}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>경력 사항</label>
+                <input type="text" th:value="${resume.career}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>자격증</label>
+                <input type="text" th:value="${resume.certificate}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>소개글</label>
+                <textarea rows="4" readonly th:text="${resume.introduction}"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="button-box" th:if="${type == null}">
+        <a th:href="@{/test}" class="submit-btn">예약</a>
+    </div>
+
+    <div class="buttons" th:if="${type == 'view'}">
+        <button type="button" class="buttonStyle" th:onclick="|location.href='@{/urgent/myForms}'|">확인</button>
+    </div>
+</th:block>
+</body>
+</html>

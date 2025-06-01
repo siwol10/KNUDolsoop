@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title> 제목 </title>
+    <!-- head에 개별 head 추가 가능 -->
+    <link rel="stylesheet" th:href="@{/css/careInfo.css}">
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="info-head">
+            <div class="info-title">
+                보육 정보 둘러보기
+            </div>
+            <div class="info-subtitle">
+                다양한 보육 정보 시스템을 둘러 볼 수 있습니다.
+            </div>
+        </div>
+        <div class="info-box-container">
+            <a class="info-box" th:href="@{https://www.idolbom.go.kr}" target="_blank">
+                <img src="../images/main_icon.png" alt="info_img">
+                <div class="info-box-titile">정부 아이 돌봄 서비스</div>
+                <div class="info-box-content">
+                    양육 공백이 발생한 가정의 만 12세 이하 아동을<br>
+                    대상으로 정기 돌봄 서비스를 제공합니다.
+                </div>
+            </a>
+
+            <a class="info-box" th:href="@{https://icare.seoul.go.kr}" target="_blank">
+                <img src="../images/main_icon.png" alt="info_img">
+                <div class="info-box-titile">서울시 우리동네키움포털</div>
+                <div class="info-box-content">
+                    서울시에서 제공하는 다양한 보육 서비스를<br>
+                    확인할 수 있습니다.
+                </div>
+            </a>
+
+            <a class="info-box" th:href="@{https://www.childcare.go.kr/?menuno=1}" target="_blank">
+                <img src="../images/main_icon.png" alt="info_img">
+                <div class="info-box-titile">아이사랑</div>
+                <div class="info-box-content">
+                    임신부터 출산, 육아, 어린이집까지 육아의<br>
+                    모든 부분을 안내해주는 통합 정부 사이트입니다.
+                </div>
+            </a>
+
+            <a class="info-box" th:href="@{https://gyeonggi.childcare.go.kr/ccef/main.jsp}" target="_blank">
+                <img src="../images/main_icon.png" alt="info_img">
+                <div class="info-box-titile">경기도 육아종합지원센터(남부)</div>
+                <div class="info-box-content">
+                    경기도 남부에서 제공하는 포괄적 육아 지원 전문<br>
+                    기관입니다.
+                </div>
+            </a>
+
+            <a class="info-box" th:href="@{https://gyeongginorth.childcare.go.kr/ccef/main.jsp}" target="_blank">
+                <img src="../images/main_icon.png" alt="info_img">
+                <div class="info-box-titile">경기도 육아종합지원센터(북부)</div>
+                <div class="info-box-content">
+                    경기도 북부에서 제공하는 포괄적 육아 지원 전문<br>
+                    기관입니다.
+                </div>
+            </a>
+
+            <a class="info-box" th:href="@{#}" target="_blank">
+                <img src="../images/main_icon.png" alt="info_img">
+                <div class="info-box-titile">수정 필요</div>
+                <div class="info-box-content">수정 필요</div>
+            </a>
+        </div>
+
+    </div>
+
+</th:block>
+</body>
+
+</html>

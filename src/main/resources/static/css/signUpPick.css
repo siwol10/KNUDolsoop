@@ -1,0 +1,69 @@
+body {
+                  font-family: 'Noto Sans KR', sans-serif;
+                  margin: 0;
+                  height: 100vh;
+                  overflow: auto;
+                }
+
+                .wrapper {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+
+                }
+
+                h2 {
+                  color: #08612C;
+                  margin-bottom: 40px;
+                }
+
+                .box-container {
+                  width: 90%;
+                  max-width: 1200px;
+                  height: 600px;
+                  border: 1px solid #d9d9d9;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  padding : 20px;
+                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                }
+
+                .type-container {
+                  display: flex;
+                  justify-content: center;
+                  gap: 250px;
+                }
+
+                .type-card {
+                  width: 250px;
+                  height: 350px;
+                  background-color: #08612C;
+                  border-radius: 12px;
+                  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+                  color: white;
+                  text-align: center;
+                  cursor: pointer;
+                  transition: 0.2s;
+                  text-decoration: none;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                }
+
+                .type-card:hover {
+                  transform: translateY(-5px);
+                  background-color: #08612C;
+                }
+
+                .type-icon {
+                  font-size: 64px;
+                  margin-bottom: 20px;
+                }
+
+                .type-text {
+                 font-size: 24px;
+                 font-weight: bold;
+                }

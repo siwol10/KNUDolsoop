@@ -1,0 +1,43 @@
+#topnavbar--wrap{
+    padding-top:7px;
+    padding-right:50px;
+
+    .nav-link{
+        color: #08612C;
+        font-size: 13px;
+        font-weight:normal;
+        padding:4px 8px;
+    }
+}
+#navbar-nav--wrap{
+    .navbar{
+        padding-top:0px;
+    }
+}
+
+.bg-body-tertiary{
+    background-color:transparent !important;
+}
+
+
+ .navbar-brand{
+ font-size: 1.8rem;
+ font-weight: bold;
+ margin-left:50px;
+ margin-right:90px;
+ color:#08612C;
+ }
+
+ nav .navbar-nav .nav-item {
+   margin-right: 30px ;
+   padding-top:5px;
+ }
+
+hr{
+    margin:13px 0px;
+}
+ .header-hr{
+    height: 10px;
+    border: 0;
+    box-shadow: 0 10px 10px -10px #8c8c8c inset;
+ }

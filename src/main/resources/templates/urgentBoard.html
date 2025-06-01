@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>돌숲</title>
+    <link rel="stylesheet" th:href="@{/css/urgentBoard.css}">
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <section>
+        <h4>긴급 돌봄</h4>
+        <p>※긴급 돌봄 지원 시 수락 대기 과정없이 바로 매칭됩니다.</p>
+
+        <div class="frame">
+            <div class="container" th:if="${formList.size() != 0}">
+                <div class="card" th:each="list, cardIndex: ${formList}">
+                    <div class="title">
+                        <p th:text="${list.category}">[유형]</p>
+                        <p>도움이 필요해요!</p>
+                    </div>
+
+                    <div class="element">
+                        <p th:text="${list.region}">지역</p>
+                        <p th:text="${list.location}">위치</p>
+                        <p th:text="${list.careTime}">시간</p>
+                        <div class="detail">
+                            <input type="checkbox" th:id="'info' + ${cardIndex.index}" >
+                            <label class="detailClick" th:for="'info' + ${cardIndex.index}">[특이사항 확인]</label>
+                            <div class="content">
+                                <div class="detailContent"><p th:text="${list.information}"></p></div>
+                                <label th:for="'info' + ${cardIndex.index}">X</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="buttonStyle" th:attr="data-type=${memType}, data-num=${list.num}, data-date=${list.careDate}, data-category=${list.category}" onclick="btnClick(this)">지원하기</button>
+
+
+                    <script th:inline="javascript">
+                        function btnClick(btn) {
+                            const type = btn.dataset.type;
+                            if(type == "no") {
+                                alert("로그인이 필요한 서비스입니다.");
+                            } else if(type == "PARENTS") {
+                                alert("돌보미만 지원 가능합니다.");
+                            } else if(type == "SITTER") {
+                                const okay = confirm("긴급 돌봄에 지원하시겠습니까? (지원 시 취소 불가능합니다)");
+                                if(okay) {
+                                const num = btn.dataset.num;
+                                const date = btn.dataset.date;
+                                const ctgr = btn.dataset.category;
+                                saveReservation(num, date, ctgr);
+                                }
+                            }
+                        }
+
+                        function saveReservation(num, date, ctgr) {
+                            const reservationForm = document.createElement('form');
+                            reservationForm.name = 'reservation';
+                            reservationForm.method = 'post';
+                            reservationForm.action = '/urgent/reserve';
+
+                            const formNum = document.createElement('input');
+                            formNum.setAttribute("type", "hidden");
+                            formNum.setAttribute("name", "formNum");
+                            formNum.setAttribute("value", num);
+
+                            const careDate = document.createElement('input');
+                            careDate.setAttribute("type", "hidden");
+                            careDate.setAttribute("name", "careDate");
+                            careDate.setAttribute("value", date);
+
+                            const category = document.createElement('input');
+                            category.setAttribute("type", "hidden");
+                            category.setAttribute("name", "category");
+                            category.setAttribute("value", ctgr);
+
+                            reservationForm.appendChild(formNum);
+                            reservationForm.appendChild(careDate);
+                            reservationForm.appendChild(category);
+
+                            document.body.appendChild(reservationForm);
+                            reservationForm.submit();
+
+                            alert("예약이 완료되었습니다. 신청서에서 보호자 연락처 확인 후 직접 컨택해주세요.");
+                        }
+                    </script>
+                </div>
+            </div>
+
+            <div class="pageBar" th:if="${totalPages > 1}">
+                <a th:if="${currentPage > 1}" th:href="@{/urgent(page=${currentPage - 1})}">◁</a>
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a th:href="@{/urgent(page=${i})}"><span th:text="${i}"></span></a>
+                </span>
+                <a th:if="${currentPage < totalPages}" th:href="@{/urgent(page=${currentPage + 1})}">▷</a>
+            </div>
+        </div>
+
+        <div class="frame" th:unless="${formList.size() != 0}">
+            <b id="noForm">긴급 돌봄 공고가 없습니다.</b>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>

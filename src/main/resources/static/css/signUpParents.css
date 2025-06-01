@@ -1,0 +1,112 @@
+.signup-wrapper {
+            width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h2 {
+            color: #08612C;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .signup-form {
+            border-top: 1px solid #444;
+            border-bottom: 1px solid #444;
+            padding: 30px 0;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-row label {
+            width: 140px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .form-row label span {
+            color: red;
+            margin-left: 4px;
+        }
+
+        .form-row input[type="text"],
+        .form-row input[type="password"],
+        .form-row input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .alert-row {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .alert-row label {
+            margin-left: 10px;
+            font-size: 14px;
+        }
+
+        .submit-btn {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .submit-btn button {
+            background-color: #08612C;
+            color: white;
+            padding: 12px 36px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .submit-btn button:hover {
+            background-color: #064c22;
+        }
+
+        .required-box {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+
+        .required-star {
+            font-size: 12px;
+            color: red;
+        }
+
+        .required-text {
+            font-size: 12px;
+        }
+
+        .region-select-wrap {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .region-select-wrap select {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: white;
+        }
+
+        /* 초기에는 안 보이게 */
+        .region-select-wrap.hidden {
+            display: none;
+        }

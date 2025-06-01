@@ -1,0 +1,112 @@
+h4 {
+    font-weight: 700;
+}
+
+section {
+    margin: 80px 20%;
+}
+
+.frame {
+    margin: 60px auto;
+    width: 900px;
+    place-items: center;
+    text-align: center;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(340px, auto);
+    grid-gap: 25px 30px;
+    place-items: center;
+    padding: 15px;
+}
+
+.card {
+    padding: 20px;
+    border: solid 1px black;
+    border-radius: 5px;
+    text-align: center;
+    position: relative;
+    width: 230px;
+    place-items: center;
+}
+
+.card p, checkbox {
+    margin: 0;
+}
+
+.title {
+    font-weight:bold;
+    font-size: 1.1rem;
+}
+
+.element {
+    margin: 45px 0;
+}
+
+.detail input {
+    display: none
+}
+
+.detail input + label + div {
+    display: none;
+    width: 90%;
+    height: 90%;
+    background-color: white;
+    border: 2px solid green;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.detail input:checked + label + div {
+    display: block;
+}
+
+.detailContent {
+    height: 100%;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.detail input + label + div label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-35%, -35%);
+    background-color: green;
+    color: white;
+    padding: 12px;
+    margin: 0;
+    border-radius: 100%;
+}
+
+.detailClick {
+    border-bottom: 2px solid white;
+}
+
+.detailClick:hover {
+    border-bottom: 2px solid green;
+}
+
+.buttonStyle {
+    border-radius: 5px;
+    padding: 8px 5px;
+    border-style: solid;
+    border-color: green;
+    text-align: center;
+    background-color:green;
+    color: white;
+    width: 120px;
+}
+
+#noForm {
+    color: green;
+}
+
+.pageBar {
+    padding: 25px;
+}

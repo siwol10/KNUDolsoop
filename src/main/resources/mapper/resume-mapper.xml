@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Resume">
+    <insert id="save" parameterType="com.example.SpringBoot.resume.dto.ResumeDTO">
+        INSERT INTO resume (
+        mem_num, name, age, phone_number, region,
+        care_type, care_day, care_start_time, care_end_time,career, introduction,
+        certificate, photo
+        )
+        VALUES (
+        #{memNum}, #{name}, #{age}, #{phoneNumber}, #{region},
+        #{careType},  #{careDay}, #{careStartTime}, #{careEndTime}, #{career}, #{introduction},
+        #{certificate}, #{photo}
+        )
+    </insert>
+
+    <select id="findByMemNum" parameterType="long" resultType="com.example.SpringBoot.resume.dto.ResumeDTO">
+        SELECT * FROM resume WHERE mem_num = #{memNum}
+    </select>
+
+
+</mapper>

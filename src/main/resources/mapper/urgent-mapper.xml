@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="urgent">
+    <insert id="save" parameterType="com.example.SpringBoot.urgent.dto.UrgentFormDTO">
+        INSERT
+        INTO urgent_form(category, region, location, care_time, phone_number, information, mem_num)
+        VALUES (#{category}, #{region}, #{location}, #{careTime}, #{phoneNumber}, #{information}, #{memNum})
+    </insert>
+
+    <select id="findMyForms" parameterType="map" resultType="com.example.SpringBoot.urgent.dto.UrgentFormDTO">
+        SELECT *
+        FROM urgent_form
+        WHERE mem_num = #{memNum}
+        ORDER BY care_date DESC, num DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countMyForms" parameterType="Long" resultType="int">
+        SELECT COUNT(*)
+        FROM urgent_form
+        WHERE mem_num = #{memNum}
+    </select>
+
+    <select id="findResume" parameterType="Long" resultType="com.example.SpringBoot.resume.dto.ResumeDTO">
+        SELECT resume.*
+        FROM urgent_reservation
+        JOIN resume ON urgent_reservation.mem_num = resume.mem_num
+        WHERE urgent_reservation.form_num = #{formNum}
+    </select>
+
+    <select id="findByFormNum" parameterType="Long" resultType="com.example.SpringBoot.urgent.dto.UrgentFormDTO">
+        SELECT *
+        FROM urgent_form
+        WHERE num = #{formNum}
+    </select>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM urgent_form
+        WHERE num = #{formNum}
+    </delete>
+
+    <select id="findMyReservations" parameterType="map" resultType="com.example.SpringBoot.urgent.dto.UrgentReservationDTO">
+        SELECT *
+        FROM urgent_reservation
+        WHERE mem_num = #{memNum}
+        ORDER BY care_date DESC, res_num DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countMyReservations" parameterType="Long" resultType="int">
+        SELECT COUNT(*)
+        FROM urgent_reservation
+        WHERE mem_num = #{memNum}
+    </select>
+
+    <insert id="reservation" parameterType="com.example.SpringBoot.urgent.dto.UrgentReservationDTO">
+        INSERT
+        INTO urgent_reservation(care_date, category, form_num, mem_num)
+        VALUES (#{careDate}, #{category}, #{formNum}, #{memNum})
+    </insert>
+
+    <update id="updateState" parameterType="Long">
+        UPDATE urgent_form
+        SET state = '매칭 완료'
+        WHERE num = #{formNum}
+    </update>
+
+    <select id="findAll" parameterType="map" resultType="com.example.SpringBoot.urgent.dto.UrgentFormDTO">
+        SELECT *
+        FROM urgent_form
+        WHERE state = '대기' AND care_date = CURDATE()
+        ORDER BY num DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countAll" resultType="int">
+        SELECT COUNT(*)
+        FROM urgent_form
+    </select>
+
+    <select id="findFormsByRegion" parameterType="map" resultType="com.example.SpringBoot.urgent.dto.UrgentFormDTO">
+        SELECT *
+        FROM urgent_form
+        WHERE region = #{region} AND state = '대기' AND care_date = CURDATE()
+        ORDER BY num DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countFormsByRegion" resultType="int">
+        SELECT COUNT(*)
+        FROM urgent_form
+        WHERE region = #{region}
+    </select>
+
+    <select id="findByRegion" parameterType="String" resultType="String">
+        SELECT member.phone_number
+        FROM member
+        JOIN message ON member.mem_num = message.mem_num
+        WHERE member.region = #{region} AND message.agreement = 1
+    </select>
+
+    <select id="findExpiredForms" resultType="Long">
+        SELECT num
+        FROM urgent_form
+        WHERE state = '대기' AND care_date &lt; CURDATE()
+    </select>
+
+    <update id="updateExpiredForms" parameterType="Long">
+        UPDATE urgent_form
+        SET state = '매칭 실패'
+        WHERE num IN
+        <foreach collection="list" item="num" open="(" separator="," close=")">
+            #{num}
+        </foreach>
+    </update>
+</mapper>

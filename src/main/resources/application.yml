@@ -1,0 +1,34 @@
+#어플리케이션 포트 -> 디폴트가 8080
+server:
+  port: 8080
+
+# database 연동 설정
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://database-dolsoop.c98sy2se0jle.ap-northeast-2.rds.amazonaws.com:3306/dolsoop_db?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: root
+    password: knudolsoop
+  jackson:
+    time-zone: Asia/Seoul
+
+
+
+# mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  config-location: classpath:mybatis-config.xml
+
+# s3
+cloud:
+  aws:
+    s3:
+      bucketName: ${AWS_BUCKET_NAME}
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    region:
+      static: ${AWS_REGION}
+    stack:
+      auto: false
+

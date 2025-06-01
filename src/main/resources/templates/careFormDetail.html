@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <title> 돌봄 신청서 상세 </title>
+    <link rel="stylesheet" th:href="@{/css/careFormDetail.css}">
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <div class="careForm-container">
+        <div class="careForm-title">돌봄 신청서 상세</div>
+        <div class="form-group">
+            <label for="title">글제목</label>
+            <input type="text" id="title" name="title" th:value="${careForm.title}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>돌봄 형태</label>
+            <input type="text" th:value="${careForm.careType}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>돌봄 가능 요일</label>
+            <input type="text" th:value="${careForm.careDay}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>시작 시간</label>
+            <input type="text" th:value="${#strings.substring(careForm.careStartTime, 0, 5)}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>종료 시간</label>
+            <input type="text" th:value="${#strings.substring(careForm.careEndTime, 0, 5)}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="region">지역</label>
+            <input type="text" id="region" name="region" th:value="${careForm.region}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="pay">시급</label>
+            <input type="text" id="pay" name="pay" th:value="${careForm.pay}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="request">상세 요청사항</label>
+            <textarea id="request" name="request" rows="5" th:text="${careForm.request}" readonly></textarea>
+        </div>
+
+        <div class="button-box">
+            <a th:href="@{/test}" class="submit-btn">예약</a>
+        </div>
+    </div>
+</th:block>
+</body>
+
+</html>

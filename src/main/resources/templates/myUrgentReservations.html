@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>돌숲</title>
+    <link rel="stylesheet" th:href="@{/css/myUrgentReservations.css}">
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <section>
+        <h4>긴급 돌봄 예약 내역</h4>
+
+        <div class="frame" th:if="${resList.size() != 0}">
+            <div>
+                <table>
+                    <thead>
+                    <tr class="header">
+                        <th id="left">날짜</th>
+                        <th>유형</th>
+                        <th id="right">신청서 확인</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr><td colspan="4" id="blank"></td></tr>
+                    <tr th:each="list: ${resList}">
+                        <td th:text="${list.careDate}">날짜</td>
+                        <td th:text="${list.category}">유형</td>
+                        <td>
+                            <a th:if="${list.careDate.equals(today)}" th:href="@{/urgent/form/view/{formNum}(formNum=${list.formNum})}">신청서 확인</a>
+                            <span th:unless="${list.careDate.equals(today)}">만료</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pageBar">
+                <a th:if="${currentPage > 1}" th:href="@{/urgent/myReservations(page=${currentPage - 1})}">◁</a>
+                <span th:if="${totalPages > 1}" th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a th:href="@{/urgent/myReservations(page=${i})}"><span th:text="${i}"></span></a>
+                </span>
+                <a th:if="${currentPage < totalPages}" th:href="@{/urgent/myReservations/(page=${currentPage + 1})}">▷</a>
+            </div>
+        </div>
+
+        <div class="frame" th:unless="${resList.size() != 0}">
+            <b id="noForm">예약 내역이 없습니다.</b>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>

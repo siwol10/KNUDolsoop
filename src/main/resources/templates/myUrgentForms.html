@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+  <title>돌숲</title>
+  <link rel="stylesheet" th:href="@{/css/myUrgentForms.css}">
+</head>
+
+<body>
+<th:block layout:fragment="content">
+  <section>
+    <h4>긴급 돌봄 신청서 확인</h4>
+
+    <div class="frame" th:if="${formList.size() != 0}">
+      <div>
+        <table>
+          <thead>
+          <tr class="header">
+            <th id="left">날짜</th>
+            <th>유형</th>
+            <th>신청서 확인</th>
+            <th>상태</th>
+            <th id="right">돌보미 이력서 확인</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr><td colspan="4" id="blank"></td></tr>
+          <tr th:each="list: ${formList}">
+            <td th:text="${list.careDate}" style="width: 15%">날짜</td>
+            <td th:text="${list.category}" style="width: 20%">유형</td>
+            <td style="width: 25%"><a th:href="@{/urgent/form/view/{formNum}(formNum=${list.num})}">신청서 확인</a></td>
+            <td th:text="${list.state}" style="width: 15%">상태</td>
+            <td style="width: 25%">
+              <a th:if="${list.state == '매칭 완료' && list.careDate.equals(today)}" th:href="@{/urgent/resume/view/{formNum}(formNum = ${list.num})}">
+                이력서 확인
+              </a>
+              <span th:if="${list.state == '매칭 완료' && !list.careDate.equals(today)}">만료</span>
+              <span th:unless="${list.state == '매칭 완료'}"></span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pageBar">
+        <a th:if="${currentPage > 1}" th:href="@{/urgent/myForms(page=${currentPage - 1})}">◁</a>
+        <span th:if="${totalPages > 1}" th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a th:href="@{/urgent/myForms(page=${i})}"><span th:text="${i}"></span></a>
+                </span>
+        <a th:if="${currentPage < totalPages}" th:href="@{/urgent/myForms/(page=${currentPage + 1})}">▷</a>
+      </div>
+    </div>
+
+    <div class="frame" th:unless="${formList.size() != 0}">
+      <b id="noForm">신청서 작성 내역이 없습니다.</b>
+    </div>
+  </section>
+</th:block>
+</body>
+</html>

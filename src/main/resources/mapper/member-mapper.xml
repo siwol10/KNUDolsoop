@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Member">
+    <!-- 회원가입 저장 -->
+    <insert id="save" parameterType="com.example.SpringBoot.member.dto.MemberDTO" useGeneratedKeys="true" keyProperty="memNum">
+        INSERT INTO member (
+        id, password, name, email, phone_number, member_type, region
+        ) VALUES (
+        #{id}, #{password}, #{name}, #{email}, #{phoneNumber}, #{memberType}, #{region}
+        )
+    </insert>
+
+    <!-- 로그인 사용자 조회 -->
+    <select id="findById" parameterType="java.lang.String" resultType="com.example.SpringBoot.member.dto.MemberDTO">
+        SELECT
+        mem_num memNum,
+        id,
+        password,
+        name,
+        email,
+        phone_number phoneNumber,
+        member_type memberType,
+        region
+        FROM member
+        WHERE id = #{id}
+    </select>
+
+
+
+</mapper>

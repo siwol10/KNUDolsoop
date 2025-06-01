@@ -1,0 +1,55 @@
+h4 {
+    text-align: center;
+    font-weight: 700;
+}
+
+section {
+    margin: 80px 20%;
+}
+
+.container {
+    margin: 80px auto;
+    width: 600px;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: repeat(6, minmax(40px, auto));
+    grid-gap: 25px 30px;
+}
+
+.radioButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 70px;
+}
+
+[type="radio"] {
+    accent-color: green;
+}
+
+#category_input {
+	display: none;
+}
+
+[type="text"], [type="tel"] {
+    height: 35px;
+}
+
+.buttonStyle {
+    border-radius: 5px;
+    padding: 8px 30px;
+    margin: 20px;
+    border-style: solid;
+    border-color: green;
+    text-align: center;
+    background-color:green;
+    color: white;
+}
+
+#backBtn {
+    background-color: white;
+    color: green;
+}
+
+.buttons {
+    text-align: center;
+}

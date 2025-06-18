@@ -10,5 +10,16 @@
         VALUES (#{memNum}, #{agreement})
     </insert>
 
-</mapper>
+    <select id="findByMemNum" resultType="boolean">
+        SELECT agreement
+        FROM message
+        WHERE mem_num = #{memNum}
+    </select>
 
+    <update id="update">
+        UPDATE message
+        SET agreement = #{agreement}
+        WHERE mem_num = #{memNum}
+    </update>
+
+</mapper>

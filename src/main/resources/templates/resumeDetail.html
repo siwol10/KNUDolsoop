@@ -13,25 +13,13 @@
 
     <div class="resume-container">
         <div class="left-panel">
-            <img th:src="${resume.photo != null} ? ${resume.photo} : '../images/member_profile.png'" alt="profile"
+            <img th:src="${resume.photoUrl != null} ? ${resume.photoUrl} : '../images/member_profile.png'" alt="profile"
                  class="profile-img">
             <div class="review">후기</div>
-            <div class="review-box">
-                <div class="review-rating">★★★★★</div>
-                <div class="review-writer">홍길동</div>
-                <div class="review-content">아이에게 신경을 많이 써주셨습니다.</div>
-            </div>
-
-            <div class="review-box">
-                <div class="review-rating">★★★★☆</div>
-                <div class="review-writer">아무개</div>
-                <div class="review-content">친절하시고 신뢰감 있게 맡길 수 있었어요.</div>
-            </div>
-
-            <div class="review-box">
-                <div class="review-rating">★★★★★</div>
-                <div class="review-writer">가나딩</div>
-                <div class="review-content">다음에도 꼭 부탁드리고 싶어요.</div>
+            <div th:each="review : ${reviewList}" class="review-box">
+                <div class="review-rating" th:text="${'★'.repeat(review.star)} + ${'☆'.repeat(5 - review.star)}"></div>
+                <div class="review-writer" th:text="${review.name}">이름</div>
+                <div class="review-content" th:text="${review.comment}">후기 내용</div>
             </div>
         </div>
 
@@ -84,8 +72,43 @@
 
             <div class="form-group">
                 <label>자격증</label>
-                <input type="text" th:value="${resume.certificate}" readonly>
+                <textarea rows="1" readonly th:text="${resume.certificateText}" style="margin-bottom: 1rem;"></textarea>
+                <button type="button" class="btn-view-certificates" onclick="openCertificateModal()">자격증 보기</button>
             </div>
+
+            <!-- Modal -->
+            <div id="certificateModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeCertificateModal()">&times;</span>
+                    <h3>자격증 목록</h3>
+                    <!--<div class="certificate-grid">
+                      <div th:each="cert : ${certificateFiles}">
+                        <a th:href="${cert.url}" target="_blank" style="text-decoration: none;">
+                          <img th:src="${cert.url}" th:alt="${cert.originalName}" />
+                          <div class="filename" th:text="${cert.originalName}"></div>
+                        </a>
+                      </div>
+                    </div> -->
+                </div>
+            </div>
+            <script>
+                function openCertificateModal() {
+                  document.getElementById('certificateModal').style.display = 'block';
+                }
+
+                function closeCertificateModal() {
+                  document.getElementById('certificateModal').style.display = 'none';
+                }
+
+                // ESC 키로도 닫기
+                document.addEventListener('keydown', function(e) {
+                  if (e.key === 'Escape') closeCertificateModal();
+                });
+            </script>
+
+
+
+
 
             <div class="form-group">
                 <label>소개글</label>
@@ -94,11 +117,11 @@
         </div>
     </div>
     <div class="button-box" th:if="${type == null}">
-        <a th:href="@{/test}" class="submit-btn">예약</a>
+        <a th:href="@{/resumeDetail/reserve(memNum=${resume.memNum})}" class="submit-btn">예약</a>
     </div>
 
     <div class="buttons" th:if="${type == 'view'}">
-        <button type="button" class="buttonStyle" th:onclick="|location.href='@{/urgent/myForms}'|">확인</button>
+        <button type="button" class="buttonStyle" th:onclick="history.back()">확인</button>
     </div>
 </th:block>
 </body>

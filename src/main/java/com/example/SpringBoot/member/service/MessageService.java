@@ -23,4 +23,16 @@ public class MessageService {
         }
         return dto.getMemNum();
     }
+
+    public boolean findByMemNum(Long memNum) {
+        return messageRepository.findByMemNum(memNum);
+    }
+
+    public void updateMember(MemberDTO dto, boolean agreement) {
+        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+        memberRepository.updateMember(dto);
+        if ("SITTER".equals(dto.getMemberType())) {
+            messageRepository.update(dto.getMemNum(), agreement);
+        }
+    }
 }

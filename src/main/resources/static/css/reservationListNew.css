@@ -1,0 +1,137 @@
+h4 {
+    font-weight: 700;
+}
+
+section {
+    margin: 80px 20%;
+}
+
+.menuGroup {
+    margin: 35px;
+}
+
+.menuGroup a {
+    text-decoration-line: none;
+    color: black;
+}
+
+.menuGroup a:hover {
+    text-decoration: underline #08612C 1px;
+}
+
+.middle {
+    margin: 120px;
+}
+
+.frame {
+    margin: 30px auto;
+    width: 900px;
+    place-items: center;
+    text-align: center;
+}
+
+.state, .title {
+    font-weight: 600;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    gap: 25px;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border: solid 1px black;
+    border-radius: 5px;
+    text-align: center;
+    position: relative;
+    width: 800px;
+}
+
+.left p {
+    margin: 0px;
+}
+
+.left {
+    text-align: left;
+    width: 70%;
+}
+
+.top-right {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.bottom-right {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.buttonStyle {
+    padding: 7px 30px;
+    border: 1px solid #08612C;
+    text-align: center;
+    background-color: #08612C;
+    color: white;
+    float: left;
+}
+
+#noBtn {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: white;
+    color: #08612C;
+}
+
+#yesBtn {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#noForm {
+    color: #08612C;
+    font-weight: bold;
+    margin: 120px;
+}
+
+.pageBar {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.page-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+  box-sizing: border-box;
+  color: black;
+}
+
+.page-button.current {
+  background-color: #08612C;
+  color: white;
+  font-weight: bold;
+  border: 1px solid #08612C;
+}
+
+.page-button.invisible {
+  visibility: hidden;
+}
+
+.pageNum {
+    margin: 0 15px;
+}

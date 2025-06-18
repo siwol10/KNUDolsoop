@@ -8,17 +8,115 @@
         INSERT INTO resume (
         mem_num, name, age, phone_number, region,
         care_type, care_day, care_start_time, care_end_time,career, introduction,
-        certificate, photo
+        certificate, photo, certificate_text
         )
         VALUES (
         #{memNum}, #{name}, #{age}, #{phoneNumber}, #{region},
         #{careType},  #{careDay}, #{careStartTime}, #{careEndTime}, #{career}, #{introduction},
-        #{certificate}, #{photo}
+        #{certificate}, #{photo}, #{certificateText}
         )
     </insert>
 
     <select id="findByMemNum" parameterType="long" resultType="com.example.SpringBoot.resume.dto.ResumeDTO">
-        SELECT * FROM resume WHERE mem_num = #{memNum}
+        SELECT r.*, f.url photoUrl
+        FROM resume r
+        LEFT JOIN file_object f
+        ON f.reference_type = 'resume'
+        AND f.reference_id = r.mem_num
+        AND f.file_type = 'photo'
+        WHERE r.mem_num = #{memNum}
+    </select>
+
+
+    <select id="findByFilters" parameterType="map" resultType="com.example.SpringBoot.resume.dto.ResumeDTO">
+        SELECT r.*, f.url AS photoUrl
+        FROM resume r
+        LEFT JOIN file_object f
+        ON f.reference_type = 'resume'
+        AND f.reference_id = r.mem_num
+        AND f.file_type = 'photo'
+        WHERE 1=1
+        <if test="careType != null and careType != ''">
+            AND r.care_type = #{careType}
+        </if>
+        <if test="days != null and days.size > 0">
+            <foreach item="day" index="index" collection="days" open="AND (" separator="OR" close=")">
+                r.care_day LIKE CONCAT('%', #{day}, '%')
+            </foreach>
+        </if>
+        <if test="startTime != null and startTime != ''">
+            AND r.care_start_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND r.care_end_time &lt;= #{endTime}
+        </if>
+        <if test="region != null and region != ''">
+            AND r.region LIKE CONCAT('%', #{region}, '%')
+        </if>
+        <if test="hasCertificate != null and hasCertificate == 'true'">
+            AND certificate_text IS NOT NULL AND certificate_text != ''
+        </if>
+        <if test="hasCertificate != null and hasCertificate == 'false'">
+            AND (certificate_text IS NULL OR certificate_text = '')
+        </if>
+
+    </select>
+
+    <insert id="saveReservation" parameterType="com.example.SpringBoot.reservation.dto.ReservationDTO"
+            useGeneratedKeys="true" keyProperty="resNum">
+        INSERT INTO reservation (state, choice_type, content, mem_num, target_num)
+        VALUES (#{state}, #{choiceType}, #{content}, #{memNum}, #{targetNum})
+    </insert>
+
+    <insert id="saveReservationDate" parameterType="com.example.SpringBoot.reservation.dto.ReservationDateDTO">
+        INSERT INTO reservation_date (res_date, res_num)
+        VALUES (#{resDate}, #{resNum})
+    </insert>
+    <select id="findReviewByTargetNum" parameterType="java.lang.String" resultType="com.example.SpringBoot.resume.dto.ReviewForResumeDTO">
+        select
+        rv.star,
+        rv.comment,
+        m.name
+        from
+        member m,
+        review rv
+        where
+        m.mem_num = rv.writer
+        and rv.receiver = #{targetNum}
+    </select>
+
+    <update id="updateResume" parameterType="com.example.SpringBoot.resume.dto.ResumeDTO">
+        UPDATE resume
+        SET age = #{age},
+        phone_number = #{phoneNumber},
+        region = #{region},
+        care_type = #{careType},
+        care_day = #{careDay},
+        care_start_time = #{careStartTime},
+        care_end_time = #{careEndTime},
+        career = #{career},
+        introduction = #{introduction},
+        certificate = #{certificate},
+        photo = #{photo},
+        certificate_text = #{certificateText}
+        WHERE mem_num = #{memNum}
+    </update>
+
+    <delete id="deleteResume" parameterType="Long">
+        DELETE
+        FROM resume
+        WHERE mem_num = #{memNum}
+    </delete>
+
+    <select id="findAverageStarsForAllSitters" resultType="com.example.SpringBoot.review.dto.ReviewAverageNoArgsDTO">
+        SELECT
+        receiver AS memNum,
+        AVG(star) AS average,
+        COUNT(*) AS count
+        FROM
+        review
+        GROUP BY
+        receiver
     </select>
 
 

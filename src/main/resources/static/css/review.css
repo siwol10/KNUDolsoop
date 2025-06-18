@@ -1,0 +1,81 @@
+h4 {
+    text-align: center;
+    font-weight: 700;
+}
+
+section {
+    margin: 80px 20%;
+}
+
+.container {
+    margin: 60px auto;
+    width: 600px;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: repeat(3, minmax(30px, auto));
+    grid-gap: 50px 30px;
+}
+
+.essential {
+    color: red;
+}
+
+.radioButtons {
+    display: flex;
+    flex-direction: row;
+}
+
+.star {
+    appearance: none;
+    padding: 2px;
+}
+
+.star::after {
+    content: '☆';
+    color: #08612C;
+    font-size: 20px;
+}
+
+.star:hover::after,
+.star:has(~ .star:hover)::after,
+.star:checked::after,
+.star:has(~ .star:checked)::after {
+    content: '★';
+}
+
+.star:hover ~ .star::after {
+    content: '☆';
+}
+
+input[type="text"] {
+    border-width: 0 0 1px;
+}
+
+input[type="text"]:focus {
+    outline: none;
+}
+
+textarea {
+    border-radius: 5px;
+    resize: none;
+}
+
+.buttonStyle {
+    border-radius: 5px;
+    padding: 8px 30px;
+    margin: 20px;
+    border-style: solid;
+    border-color: #08612C;
+    text-align: center;
+    background-color:#08612C;
+    color: white;
+}
+
+#backBtn {
+    background-color: white;
+    color: #08612C;
+}
+
+.buttons {
+    text-align: center;
+}

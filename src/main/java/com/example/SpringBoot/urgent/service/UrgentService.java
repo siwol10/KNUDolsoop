@@ -73,8 +73,8 @@ public class UrgentService {
         return urgentRepository.findFormsByRegion(region, offset, pageSize);
     }
 
-    public int countFormsByRegion() {
-        return urgentRepository.countFormsByRegion();
+    public int countFormsByRegion(String region) {
+        return urgentRepository.countFormsByRegion(region);
     }
 
     @Transactional

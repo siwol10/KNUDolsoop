@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reservation">
+    <select id="findByTargetNum" resultType="com.example.SpringBoot.reservation.dto.ReservationDTO">
+        SELECT *
+        FROM reservation
+        WHERE target_num = #{targetNum} AND state = '대기'
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countByTargetNum" parameterType="Long" resultType="int">
+        SELECT COUNT(*)
+        FROM reservation
+        WHERE target_num = #{targetNum} AND state = '대기'
+    </select>
+
+    <select id="findDate" parameterType="java.util.List" resultType="com.example.SpringBoot.reservation.dto.ReservationDateDTO">
+        SELECT *
+        FROM reservation_date
+        WHERE res_num IN
+        <foreach collection="list" item="resNum" open="(" separator="," close=")">
+            #{resNum}
+        </foreach>
+    </select>
+
+    <update id="updateState">
+        UPDATE reservation
+        SET state = #{state}
+        WHERE res_num = #{resNum}
+    </update>
+
+    <select id="findByMemNum" resultType="com.example.SpringBoot.reservation.dto.ReservationDTO">
+        SELECT *
+        FROM reservation
+        WHERE mem_num = #{memNum} AND state = '대기'
+        ORDER BY res_num DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countByMemNum" parameterType="Long" resultType="int">
+        SELECT COUNT(*)
+        FROM reservation
+        WHERE mem_num = #{memNum} AND state = '대기'
+    </select>
+
+    <select id="findAll" resultType="com.example.SpringBoot.reservation.dto.ReservationDTO">
+        SELECT *
+        FROM reservation
+        WHERE state IN ('예정', '진행 중', '대기')
+    </select>
+
+    <select id="findOngoing" resultType="com.example.SpringBoot.reservation.dto.ReservationDTO">
+        SELECT r.*
+        FROM reservation r
+        JOIN (SELECT res_num, MIN(res_date) AS early_date
+        FROM reservation_date
+        GROUP BY res_num) d ON r.res_num = d.res_num
+        WHERE (mem_num = #{num} OR target_num = #{num}) AND state IN ('진행 중', '예정')
+        ORDER BY FIELD(state, '진행 중') DESC, d.early_date
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countOngoing" parameterType="Long" resultType="int">
+        SELECT COUNT(*)
+        FROM reservation r
+        JOIN (SELECT res_num, MIN(res_date) AS early_date
+        FROM reservation_date
+        GROUP BY res_num) d ON r.res_num = d.res_num
+        WHERE (mem_num = #{num} OR target_num = #{num}) AND state IN ('진행 중', '예정')
+    </select>
+
+    <select id="findCompleted" resultType="com.example.SpringBoot.reservation.dto.ReservationDTO">
+        SELECT r.*
+        FROM reservation r
+        JOIN (SELECT res_num, MAX(res_date) AS last_date
+        FROM reservation_date
+        GROUP BY res_num) d ON r.res_num = d.res_num
+        WHERE (mem_num = #{num} OR target_num = #{num}) AND state IN ('완료')
+        ORDER BY d.last_date DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countCompleted" parameterType="Long" resultType="int">
+        SELECT COUNT(*)
+        FROM reservation r
+        JOIN (SELECT res_num
+        FROM reservation_date
+        GROUP BY res_num) d ON r.res_num = d.res_num
+        WHERE (mem_num = #{num} OR target_num = #{num}) AND state IN ('완료')
+    </select>
+
+    <select id="findDropped" resultType="com.example.SpringBoot.reservation.dto.ReservationDTO">
+        SELECT r.*
+        FROM reservation r
+        JOIN (SELECT res_num, MAX(res_date) AS last_date
+        FROM reservation_date
+        GROUP BY res_num) d ON r.res_num = d.res_num
+        WHERE (mem_num = #{num} OR target_num = #{num}) AND state IN ('거절', '취소', '종료')
+        ORDER BY d.last_date DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countDropped" parameterType="Long" resultType="int">
+        SELECT COUNT(*)
+        FROM reservation r
+        JOIN (SELECT res_num
+        FROM reservation_date
+        GROUP BY res_num) d ON r.res_num = d.res_num
+        WHERE (mem_num = #{num} OR target_num = #{num}) AND state IN ('거절', '취소', '종료')
+    </select>
+
+    <update id="updateMemReview" parameterType="Long">
+        UPDATE reservation
+        SET mem_review = 1
+        WHERE res_num = #{resNum}
+    </update>
+
+    <update id="updateTargetReview" parameterType="Long">
+        UPDATE reservation
+        SET target_review = 1
+        WHERE res_num = #{resNum}
+    </update>
+
+    <select id="findByResNum" parameterType="Long" resultType="com.example.SpringBoot.reservation.dto.ReservationDTO">
+        SELECT res_num, state, choice_type, content, mem_num, target_num, mem_review, target_review
+        FROM reservation
+        WHERE res_num = #{resNum}
+    </select>
+</mapper>

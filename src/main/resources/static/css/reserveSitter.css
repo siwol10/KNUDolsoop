@@ -1,0 +1,146 @@
+.div-container {
+    max-width: 720px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #222;
+}
+
+.body-head {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+
+.calendar {
+    display: grid;
+    grid-template-columns: 140px 1fr; /* 왼쪽 라벨 + 오른쪽 캘린더 */
+    align-items: start;
+    column-gap: 16px;
+    margin-bottom: 24px;
+}
+
+.calendar-text {
+    font-weight: 500;
+    padding-top: 6px;
+}
+
+.calendar-show {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 20px;
+    background-color: #fff;
+
+    /* 핵심 수정 */
+    width: 100%;
+    overflow-x: hidden;     /* 스크롤 제거 */
+    min-width: 0;            /* 그리드 column에서 강제로 늘어나지 않도록 */
+}
+
+#calendar {
+    width: 100%;
+    min-height: 250px;
+
+    /* ✅ 고정 width 제거 */
+    min-width: 0;
+}
+
+/* 날짜 출력 (선택한 날짜 표시) */
+.date-pick {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: start;
+    column-gap: 16px;
+    margin-bottom: 24px;
+}
+
+.date-pick-text {
+    font-weight: 500;
+    padding-top: 6px;
+}
+
+.date-pick-show {
+    font-size: 14px;
+    color: #444;
+    padding-top: 6px;
+}
+
+/* 전달하실 말씀 영역 */
+.send {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: start;
+    column-gap: 16px;
+    margin-bottom: 24px;
+}
+
+.send-text {
+    font-weight: 500;
+    padding-top: 6px;
+}
+
+.send-text-input {
+    width: 100%;
+    height: 120px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 14px;
+    resize: none;
+}
+
+/* 동의 체크박스 영역 */
+.agree {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    margin-bottom: 24px;
+    gap: 8px;
+}
+
+/* 버튼 영역 */
+.button {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.button-cancel,
+.button-register {
+    width: 80px;
+    height: 36px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.button-cancel {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.button-register {
+    background-color: #0a4e16;
+    color: #fff;
+}
+
+/* 반응형 대응 */
+@media (max-width: 600px) {
+    .date-pick,
+    .send {
+        grid-template-columns: 1fr;
+    }
+
+    .date-pick-text,
+    .send-text {
+        padding-bottom: 6px;
+    }
+
+    .calendar-show {
+        min-width: unset;
+        overflow-x: auto;
+    }
+}

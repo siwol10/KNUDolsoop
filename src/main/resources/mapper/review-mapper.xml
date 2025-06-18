@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="review">
+    <insert id="saveReview">
+        INSERT
+        INTO review(star, comment, detail, res_num, writer, receiver)
+        VALUES(#{star}, #{comment}, #{detail}, #{resNum}, #{writer}, #{receiver})
+    </insert>
+</mapper>

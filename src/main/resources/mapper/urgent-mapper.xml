@@ -77,6 +77,7 @@
     <select id="countAll" resultType="int">
         SELECT COUNT(*)
         FROM urgent_form
+        WHERE state = '대기' AND care_date = CURDATE()
     </select>
 
     <select id="findFormsByRegion" parameterType="map" resultType="com.example.SpringBoot.urgent.dto.UrgentFormDTO">
@@ -90,7 +91,7 @@
     <select id="countFormsByRegion" resultType="int">
         SELECT COUNT(*)
         FROM urgent_form
-        WHERE region = #{region}
+        WHERE region = #{region} AND state = '대기' AND care_date = CURDATE()
     </select>
 
     <select id="findByRegion" parameterType="String" resultType="String">
@@ -106,7 +107,7 @@
         WHERE state = '대기' AND care_date &lt; CURDATE()
     </select>
 
-    <update id="updateExpiredForms" parameterType="Long">
+    <update id="updateExpiredForms" parameterType="java.util.List">
         UPDATE urgent_form
         SET state = '매칭 실패'
         WHERE num IN

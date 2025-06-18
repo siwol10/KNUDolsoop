@@ -28,6 +28,26 @@
         WHERE id = #{id}
     </select>
 
+    <select id="findByMemNum" parameterType="java.lang.String" resultType="com.example.SpringBoot.member.dto.MemberDTO">
+        SELECT
+        mem_num memNum,
+        id,
+        password,
+        name,
+        email,
+        phone_number phoneNumber,
+        member_type memberType,
+        region
+        FROM member
+        WHERE mem_num = #{memNum}
+    </select>
 
-
+    <update id="updateMember" parameterType="com.example.SpringBoot.member.dto.MemberDTO">
+        UPDATE member
+        SET password = #{password},
+        email = #{email},
+        region = #{region},
+        phone_number = #{phoneNumber}
+        WHERE mem_num = #{memNum}
+    </update>
 </mapper>

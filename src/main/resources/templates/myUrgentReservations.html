@@ -37,16 +37,22 @@
             </div>
 
             <div class="pageBar">
-                <a th:if="${currentPage > 1}" th:href="@{/urgent/myReservations(page=${currentPage - 1})}">◁</a>
-                <span th:if="${totalPages > 1}" th:each="i: ${#numbers.sequence(1, totalPages)}">
-                    <a th:href="@{/urgent/myReservations(page=${i})}"><span th:text="${i}"></span></a>
-                </span>
-                <a th:if="${currentPage < totalPages}" th:href="@{/urgent/myReservations/(page=${currentPage + 1})}">▷</a>
+                <a th:href="@{|/urgent/myReservations?page=1|}" th:class="'page-button ' + (${currentPage == 1} ? 'invisible' : '')">«</a>
+                <a th:href="@{|/urgent/myReservations?page=${currentPage - 1}|}" th:class="'page-button ' + (${currentPage == 1} ? 'invisible' : '')">‹</a>
+
+                <div class="pageNum">
+                    <span th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                        <a th:href="@{|/urgent/myReservations?page=${i}|}" th:text="${i}" th:class="'page-button ' + (${i == currentPage} ? 'current' : '')"></a>
+                    </span>
+                </div>
+
+                <a th:href="@{|/urgent/myReservations?page=${currentPage + 1}|}" th:class="'page-button ' + (${currentPage == totalPages} ? 'invisible' : '')">›</a>
+                <a th:href="@{|/urgent/myReservations?page=${totalPages}|}" th:class="'page-button ' + (${currentPage == totalPages} ? 'invisible' : '')">»</a>
             </div>
         </div>
 
         <div class="frame" th:unless="${resList.size() != 0}">
-            <b id="noForm">예약 내역이 없습니다.</b>
+            <p id="noForm">예약 내역이 없습니다.</p>
         </div>
     </section>
 </th:block>

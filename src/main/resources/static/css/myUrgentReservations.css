@@ -7,7 +7,7 @@ section {
 }
 
 .frame {
-	margin: 60px auto;
+	margin: 80px auto;
 	text-align: center;
 }
 
@@ -22,7 +22,7 @@ table {
 th {
 	height: 40px;
 	border: 1px solid white;
-	background-color: green;
+	background-color: #08612C;
 	color: white;
 }
 
@@ -38,9 +38,9 @@ th {
 
 td {
 	height: 45px;
-	border: 1px solid green;
+	border: 1px solid #08612C;
 	background-color: white;
-	color: green;
+	color: #08612C;
 }
 
 #blank {
@@ -49,9 +49,43 @@ td {
 }
 
 #noForm {
-    color: green;
+    color: #08612C;
+    font-weight: bold;
+    margin: 120px;
 }
 
 .pageBar {
-    padding: 25px;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.page-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+  box-sizing: border-box;
+  color: black;
+}
+
+.page-button.current {
+  background-color: #08612C;
+  color: white;
+  font-weight: bold;
+  border: 1px solid #08612C;
+}
+
+.page-button.invisible {
+  visibility: hidden;
+}
+
+.pageNum {
+    margin: 0 15px;
 }

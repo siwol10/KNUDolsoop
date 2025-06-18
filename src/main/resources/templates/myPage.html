@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>돌숲</title>
+    <link rel="stylesheet" th:href="@{/css/myPage.css}">
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <section>
+        <h4>마이페이지</h4>
+
+        <div class="frame">
+            <div class="card" th:onclick="|location.href='/myPage/member/edit?mem=${memNum}&type=${memType}'|">
+                <p>회원 정보 수정</p>
+                <img src="/images/member.png" class="first">
+            </div>
+            <div class="card" onclick="location.href='/myPage/reservation/new'">
+                <p>예약 확인</p>
+                <img src="/images/reservation.png">
+            </div>
+            <div class="card" th:if="${(memType == 1) && (resume == null)}" th:onclick="|location.href='/resume'|">
+                <p>이력서 작성</p>
+                <img src="/images/resume.png">
+            </div>
+            <div class="card" th:if="${(memType == 1) && (resume != null)}" th:onclick="|location.href='/myPage/resume/edit'|">
+                <p>이력서 수정</p>
+                <img src="/images/resume.png">
+            </div>
+            <div class="card" th:if="${(memType == 0) && (careForm == null)}" th:onclick="|location.href='/careForm'|">
+                <p>신청서 작성</p>
+                <img src="/images/resume.png">
+            </div>
+            <div class="card" th:if="${(memType == 0) && (careForm != null)}" th:onclick="|location.href='/myPage/careForm/edit'|">
+                <p>신청서 수정</p>
+                <img src="/images/resume.png">
+            </div>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>

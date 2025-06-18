@@ -1,0 +1,39 @@
+.frame {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.DateBar {
+    text-align: center;
+}
+
+span {
+    margin: 20px;
+}
+
+a {
+    text-decoration-line: none;
+}
+
+a, span {
+    color: #08612C;
+    font-size: 1.3rem;
+}
+
+textarea {
+    margin: 20px;
+    resize:none;
+}
+
+.buttonStyle {
+    border-radius: 5px;
+    padding: 8px 30px;
+    border-style: solid;
+    border-color: #08612C;
+    text-align: center;
+    background-color:#08612C;
+    color: white;
+}

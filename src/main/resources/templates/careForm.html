@@ -3,47 +3,50 @@
       layout:decorate="~{layouts/layout}">
 
 <head>
-    <title> 돌봄 신청서 작성 </title>
+    <title> 돌봄 신청서</title>
     <link rel="stylesheet" th:href="@{/css/careForm.css}">
 </head>
 
 <body>
 <th:block layout:fragment="content">
     <div class="careForm-container">
-        <div class="careForm-title">돌봄 신청서 작성</div>
-        <form th:action="@{/careForm/save}" method="post" enctype="multipart/form-data">
+        <div class="careForm-title" th:if="${form == null}">돌봄 신청서 작성</div>
+        <div class="careForm-title" th:unless="${form == null}">돌봄 신청서 수정</div>
+        <form th:action="@{/careForm/save}" method="post" enctype="multipart/form-data" id="frm">
             <div class="form-group">
                 <label for="title">글제목</label>
-                <input type="text" id="title" name="title" placeholder="글 제목을 입력하세요." required>
+                <input type="text" id="title" name="title" placeholder="글 제목을 입력하세요." required
+                       th:value="${(form == null) ? '' : form.title}">
             </div>
 
             <div class="form-group">
                 <label for="careType">돌봄 형태</label>
                 <select id="careType" name="careType" required>
-                    <option value="">선택</option>
+                    <option th:value="${(form == null) ? '' : form.careType}" th:text="${(form == null) ? '선택' : form.careType}" selected hidden>선택</option>
                     <option value="정기">정기</option>
                     <option value="일시">일시</option>
-                    <option value="긴급">긴급</option>
+                    <!-- <option value="긴급">긴급</option> -->
                 </select>
             </div>
 
             <div class="form-group">
-                <label>돌봄 가능 요일</label>
-                <input type="checkbox" name="careDays" value="월"> 월
-                <input type="checkbox" name="careDays" value="화"> 화
-                <input type="checkbox" name="careDays" value="수"> 수
-                <input type="checkbox" name="careDays" value="목"> 목
-                <input type="checkbox" name="careDays" value="금"> 금
-                <input type="checkbox" name="careDays" value="토"> 토
-                <input type="checkbox" name="careDays" value="일"> 일
+                <label>돌봄 요일</label>
+                <input type="checkbox" name="careDays" value="월" th:checked="${(form != null) and form.careDay.contains('월')}"> 월
+                <input type="checkbox" name="careDays" value="화" th:checked="${(form != null) and form.careDay.contains('화')}"> 화
+                <input type="checkbox" name="careDays" value="수" th:checked="${(form != null) and form.careDay.contains('수')}"> 수
+                <input type="checkbox" name="careDays" value="목" th:checked="${(form != null) and form.careDay.contains('목')}"> 목
+                <input type="checkbox" name="careDays" value="금" th:checked="${(form != null) and form.careDay.contains('금')}"> 금
+                <input type="checkbox" name="careDays" value="토" th:checked="${(form != null) and form.careDay.contains('토')}"> 토
+                <input type="checkbox" name="careDays" value="일" th:checked="${(form != null) and form.careDay.contains('일')}"> 일
             </div>
 
             <div class="form-group">
                 <label for="careStartTime">시작 시간</label>
                 <select id="careStartTime" name="careStartTime" required>
-                    <option value="">선택</option>
+                    <option th:value="${(form == null) ? '' : form.careStartTime}" th:text="${(form == null) ? '선택' : form.careStartTime}" selected hidden>선택</option>
                     <th:block th:each="time : ${timeOptions}">
-                        <option th:value="${time}" th:text="${time}"></option>
+                        <option th:value="${time}"
+                                th:text="${time}"></option>
                     </th:block>
                 </select>
             </div>
@@ -51,7 +54,7 @@
             <div class="form-group">
                 <label for="careEndTime">종료 시간</label>
                 <select id="careEndTime" name="careEndTime" required>
-                    <option value="">선택</option>
+                    <option th:value="${(form == null) ? '' : form.careEndTime}" th:text="${(form == null) ? '선택' : form.careEndTime}" selected hidden>선택</option>
                     <th:block th:each="time : ${timeOptions}">
                         <option th:value="${time}" th:text="${time}"></option>
                     </th:block>
@@ -66,16 +69,37 @@
 
             <div class="form-group">
                 <label for="pay">시급</label>
-                <input type="text" id="pay" name="pay" placeholder="시급을 입력하세요."required>
+                <input type="text" id="pay" name="pay" placeholder="시급을 입력하세요. (숫자만 입력)"required
+                       th:value="${(form == null) ? '' : form.pay}">
             </div>
 
             <div class="form-group">
                 <label for="request">상세 요청사항</label>
-                <textarea id="request" name="request" rows="5" placeholder="요청 사항을 입력하세요." required></textarea>
+                <textarea id="request" name="request" rows="5" placeholder="요청 사항을 입력하세요." required
+                          th:text="${(form == null) ? '' : form.request}"></textarea>
             </div>
 
-            <button type="submit" class="submit-btn">등록</button>
+            <button type="submit" class="submit-btn" th:if="${form == null}">등록</button>
         </form>
+
+        <div class="buttons" th:unless="${form == null}">
+            <button type="button" class="buttonStyle" onclick="editBtn()">수정</button>
+            <script>
+                function editBtn() {
+                    const editForm = document.getElementById('frm');
+                    if(editForm.checkValidity()) {
+                        editForm.action = '/myPage/careForm/edit'
+                        editForm.submit();
+                    } else {
+                        editForm.reportValidity();
+                    }
+                }
+            </script>
+            <form method="post" th:action="@{/myPage/careForm/delete}" style="display: inline-block;">
+                <input type="hidden" name="memNum" th:value="${form.memNum}">
+                <button type="submit" class="buttonStyle" id="delBtn" onclick="return confirm('신청서를 삭제하시겠습니까?')">삭제</button>
+            </form>
+        </div>
     </div>
 </th:block>
 </body>

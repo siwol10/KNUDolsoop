@@ -1,25 +1,30 @@
 body {
     font-family: Arial, sans-serif;
 }
+
 .resume-container {
     width: 600px;
     margin: 50px auto;
 }
+
 .resume-title {
     text-align: center;
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 30px;
 }
+
 .form-group {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
 }
+
 .form-group label {
     width: 120px;
     font-weight: bold;
 }
+
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -28,10 +33,12 @@ body {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
 textarea {
     height: 100px;
     resize: none;
 }
+
 .form-group input[type="file"] {
     padding: 0;
     border: none;
@@ -56,3 +63,74 @@ textarea {
     background-color: #0b5ed7;
 }
 
+.file-upload-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.file-upload-row label {
+    min-width: 120px;
+    font-weight: bold;
+}
+
+.file-upload-row input[type="file"] {
+    flex-grow: 1;
+}
+
+.file-upload-row button {
+    background-color: #08612C;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.file-upload-row button:hover {
+    background-color: #08612C;
+}
+
+#file-list {
+    margin-top: 8px;
+    padding-left: 20px;
+    font-size: 14px;
+}
+
+#file-list li {
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px;
+}
+
+.buttonStyle {
+    border-radius: 5px;
+    padding: 8px 30px;
+    margin: 20px;
+    border-style: solid;
+    border-color: #08612C;
+    text-align: center;
+    background-color:#08612C;
+    color: white;
+}
+
+#delBtn {
+    background-color: white;
+    color: #08612C;
+}
+
+.buttons {
+    text-align: center;
+}
+
+.fileDelBtn {
+    margin-left: 10px;
+    border: 1px solid gray;
+}
+
+.certificate-grid, .photo-grid {
+    margin-bottom: 15px;
+}

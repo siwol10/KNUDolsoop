@@ -2,13 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>알림</title>
 </head>
 <!--메세지띄우기-->
 <script th:inline="javascript">
     var message = [[${message}]];
+    var searchUrl = /*[[${searchUrl}]]*/ null;
+
     alert(message);
-    location.replace([[${searchUrl}]]);
+    if(searchUrl != null)
+        location.replace(searchUrl);
+    else
+        history.back();
 </script>
 
 <body>

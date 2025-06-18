@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="report">
+    <insert id="saveReport" parameterType="com.example.SpringBoot.report.dto.ReportDTO">
+        INSERT
+        INTO report(care_date, content, res_num)
+        VALUES (#{careDate}, #{content}, #{resNum})
+    </insert>
+
+    <select id="findByResNum" parameterType="Long" resultType="com.example.SpringBoot.report.dto.ReportDTO">
+        SELECT *
+        FROM report
+        WHERE res_num = #{resNum}
+        ORDER BY care_date
+    </select>
+
+    <select id="findFirstReport" parameterType="Long" resultType="com.example.SpringBoot.report.dto.ReportDTO">
+        SELECT *
+        FROM report
+        WHERE res_num = #{resNum}
+        ORDER BY care_date
+        LIMIT 1
+    </select>
+
+    <select id="findByReportNum" parameterType="Long" resultType="com.example.SpringBoot.report.dto.ReportDTO">
+        SELECT *
+        FROM report
+        WHERE num = #{reportNum}
+    </select>
+
+    <select id="findPreNum" resultType="Long">
+        SELECT num
+        FROM report
+        WHERE res_num = #{resNum} AND care_date &lt; #{careDate}
+        ORDER BY care_date DESC
+        LIMIT 1
+    </select>
+
+    <select id="findNextNum" resultType="Long">
+        SELECT num
+        FROM report
+        WHERE res_num = #{resNum} AND care_date &gt; #{careDate}
+        ORDER BY care_date
+        LIMIT 1
+    </select>
+</mapper>

@@ -17,6 +17,9 @@ public class ResumeDTO {
     private String introduction;
     private String certificate;
     private String photo;
+    private String certificateText;
+
+    private String photoUrl; // file_object의 url을 담을 필드
 
 }
 

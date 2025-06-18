@@ -62,3 +62,23 @@ textarea {
 .submit-btn:hover {
     background-color: #0b5ed7;
 }
+
+.buttonStyle {
+    border-radius: 5px;
+    padding: 8px 30px;
+    margin: 20px;
+    border-style: solid;
+    border-color: #08612C;
+    text-align: center;
+    background-color:#08612C;
+    color: white;
+}
+
+#delBtn {
+    background-color: white;
+    color: #08612C;
+}
+
+.buttons {
+    text-align: center;
+}

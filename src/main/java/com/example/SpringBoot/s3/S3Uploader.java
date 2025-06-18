@@ -1,7 +1,11 @@
 package com.example.SpringBoot.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.example.SpringBoot.file.dto.FileObjectDTO;
+import com.example.SpringBoot.file.repository.FileObjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,7 @@ import java.util.UUID;
 public class S3Uploader {
 
     private final AmazonS3 amazonS3;
+    private final FileObjectRepository fileObjectRepository;
 
     @Value("${cloud.aws.s3.bucketName}")
     private String bucketName;
@@ -28,12 +33,55 @@ public class S3Uploader {
         metadata.setContentLength(multipartFile.getSize());
         metadata.setContentType(multipartFile.getContentType());
 
-        amazonS3.putObject(bucketName, fileName, multipartFile.getInputStream(), metadata);
+        PutObjectRequest putObjectRequest = new PutObjectRequest(
+                bucketName,
+                fileName,
+                multipartFile.getInputStream(),
+                metadata
+        ).withCannedAcl(CannedAccessControlList.PublicRead); // 퍼블릭 읽기 권한 추가
 
-        return fileName; // S3 Key만 반환 (ex: images/xxx.jpg)
+        amazonS3.putObject(putObjectRequest);
+        System.out.println("테스트");
+
+        return amazonS3.getUrl(bucketName, fileName).toString();
     }
+
+    // 단일 파일 업로드
+    public void uploadAndRegisterFile(String referenceType, Long referenceId, String fileType, MultipartFile file) throws IOException {
+        if (file != null && !file.isEmpty()) {
+            this.uploadAndRegisterFiles(referenceType, referenceId, fileType, new MultipartFile[]{file});
+        }
+    }
+
+    // 다중 파일 업로드
+    public void uploadAndRegisterFiles(String referenceType, Long referenceId, String fileType, MultipartFile[] files) throws IOException {
+        System.out.println(files.length);
+
+        for (MultipartFile file : files) {
+            System.out.println("for");
+            if (!file.isEmpty()) {
+                System.out.println("파일 테스트");
+                // S3 업로드 (prefix로 fileType 사용해 구분)
+                String url = this.upload(file, fileType);
+
+                FileObjectDTO obj = new FileObjectDTO();
+                obj.setReferenceType(referenceType);
+                obj.setReferenceId(referenceId);
+                obj.setFileType(fileType);
+                obj.setUrl(url);
+                obj.setOriginalName(file.getOriginalFilename());
+
+                fileObjectRepository.insert(obj);
+            }
+        }
+    }
+
 
     public String getFileUrl(String fileName) {
         return amazonS3.getUrl(bucketName, fileName).toString(); // 브라우저 접근용 URL
+    }
+
+    public void deleteFile(String key) {
+        amazonS3.deleteObject(bucketName, key);
     }
 }

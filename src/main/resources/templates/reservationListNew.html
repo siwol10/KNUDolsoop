@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>돌숲</title>
+    <link rel="stylesheet" th:href="@{/css/reservationListNew.css}">
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <section>
+        <h4>예약 확인</h4>
+
+        <div class="menuGroup">
+            <span style="color: #08612C;">◦ <a href="" style="color: #08612C;">새로운 예약</a></span>
+            <span class="middle">◦ <a href="/myPage/reservation/ongoing">예약 목록</a></span>
+            <span>◦ <a href="/myPage/reservation/applied">예약 신청 내역</a></span>
+        </div>
+
+        <div class="frame" th:if="${reservationList.size() != 0}">
+            <div class="container">
+                <div class="item" th:each="list: ${reservationList}">
+                    <div class="left">
+                        <p class="state" th:text="${list.state}">대기</p>
+                        <br>
+                        <p class="title" th:text="${list.name} + '님의 예약 요청'"></p>
+                        <br>
+                        <div class="element">
+                            <p th:text="'날짜: ' + ${list.dateSummary}">날짜</p>
+                            <details>
+                                <summary>전달 내용</summary>
+                                <p th:text="${list.content}"></p>
+                            </details>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <a class="top-right" th:if="${memType == 'SITTER'}" th:href="@{'/careFormDetail?memNum=' + ${list.memNum} + '&type=view'}">신청서 확인</a>
+                        <a class="top-right" th:if="${memType == 'PARENTS'}" th:href="@{'/resumeDetail?memNum=' + ${list.memNum} + '&type=view'}">이력서 확인</a>
+
+                        <div class="bottom-right">
+                            <form method = "post" th:action="@{'/myPage/reservation?resNum=' + ${list.resNum} + '&part=1'}" style="display:inline;">
+                                <input type="hidden" name="state" value="거절">
+                                <button type="submit" class="buttonStyle" id="noBtn" onclick="return confirm('예약을 거절하시겠습니까?');">거절</button>
+                            </form>
+                            <form method = "post" th:action="@{'/myPage/reservation?resNum=' + ${list.resNum} + '&part=1'}" style="display:inline;">
+                                <input type="hidden" name="state" value="예정">
+                                <button type="submit" class="buttonStyle" id="yesBtn" onclick="return confirm('예약을 승인하시겠습니까?');">확인</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pageBar">
+                <a th:href="@{|/myPage/reservation/new?page=1|}" th:class="'page-button ' + (${currentPage == 1} ? 'invisible' : '')">«</a>
+                <a th:href="@{|/myPage/reservation/new?page=${currentPage - 1}|}" th:class="'page-button ' + (${currentPage == 1} ? 'invisible' : '')">‹</a>
+
+                <div class="pageNum">
+                    <span th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                        <a th:href="@{|/myPage/reservation/new?page=${i}|}" th:text="${i}" th:class="'page-button ' + (${i == currentPage} ? 'current' : '')"></a>
+                    </span>
+                </div>
+
+                <a th:href="@{|/myPage/reservation/new?page=${currentPage + 1}|}" th:class="'page-button ' + (${currentPage == totalPages} ? 'invisible' : '')">›</a>
+                <a th:href="@{|/myPage/reservation/new?page=${totalPages}|}" th:class="'page-button ' + (${currentPage == totalPages} ? 'invisible' : '')">»</a>
+            </div>
+        </div>
+
+        <div class="frame" th:unless="${reservationList.size() != 0}">
+            <p id="noForm">새로운 예약 요청이 없습니다.</p>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>

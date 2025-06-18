@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>돌보미 게시판</title>
+    <link rel="stylesheet" th:href="@{/css/sitterBoard.css}">
+    <script th:src="@{/js/regionData.js}"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+
+            const selectedFiltersContainer = document.getElementById("selectedFilters");
+
+            // 돌봄 형태
+            const careTypeSelect = document.querySelector("select[name='careType']");
+            careTypeSelect.addEventListener("change", () => {
+                const value = careTypeSelect.value;
+                const label = careTypeSelect.options[careTypeSelect.selectedIndex].text;
+                const existing = document.querySelector(".filter-tag[data-type='careType']");
+                if (existing) existing.remove();
+                if (value) {
+                    const tag = document.createElement("div");
+                    tag.className = "filter-tag";
+                    tag.dataset.type = "careType";
+                    tag.innerHTML = `${label} <button type="button">&times;</button>`;
+                    tag.querySelector("button").addEventListener("click", () => {
+                        tag.remove();
+                        careTypeSelect.value = "";
+                    });
+                    selectedFiltersContainer.appendChild(tag);
+                }
+            });
+
+            // 요일 드롭다운
+            const dayDropdown = document.getElementById("dayDropdown");
+            const dayCheckboxes = dayDropdown.querySelectorAll("input[type='checkbox']");
+            dayCheckboxes.forEach(cb => cb.addEventListener("change", updateDayTag));
+
+            function updateDayTag() {
+                const selected = Array.from(dayCheckboxes)
+                    .filter(cb => cb.checked)
+                    .map(cb => cb.value);
+
+                const existing = document.querySelector(".filter-tag[data-type='day']");
+                if (existing) existing.remove();
+
+                if (selected.length > 0) {
+                    const tag = document.createElement("div");
+                    tag.className = "filter-tag";
+                    tag.dataset.type = "day";
+                    tag.innerHTML = `${selected.join(", ")} <button type="button">&times;</button>`;
+                    tag.querySelector("button").addEventListener("click", () => {
+                        tag.remove();
+                        dayCheckboxes.forEach(cb => cb.checked = false);
+                    });
+                    selectedFiltersContainer.appendChild(tag);
+                }
+            }
+
+            // 시간
+            const startTime = document.querySelector("select[name='startTime']");
+            const endTime = document.querySelector("select[name='endTime']");
+            const updateTimeTag = () => {
+                const start = startTime.value;
+                const end = endTime.value;
+
+                const existing = document.querySelector(".filter-tag[data-type='time']");
+                if (existing) existing.remove();
+                if (start || end) {
+                    const tag = document.createElement("div");
+                    tag.className = "filter-tag";
+                    tag.dataset.type = "time";
+                    tag.innerHTML = `${start || ''} ~ ${end || ''} <button type="button">&times;</button>`;
+                    tag.querySelector("button").addEventListener("click", () => {
+                        tag.remove();
+                        startTime.value = "";
+                        endTime.value = "";
+                    });
+                    selectedFiltersContainer.appendChild(tag);
+                }
+            };
+
+            startTime.addEventListener("change", updateTimeTag);
+            endTime.addEventListener("change", updateTimeTag);
+
+            // 지역
+            window.updateRegionTag = () => {
+                const sido = document.getElementById("sidoSelect").value;
+                const gugun = document.getElementById("gugunSelect").value;
+                const dong = document.getElementById("dongSelect").value;
+
+                const regionStr = [sido, gugun, dong].filter(Boolean).join(" ");
+                document.getElementById("regionDisplay").value = regionStr;
+                document.getElementById("region").value = regionStr;
+
+                const existing = document.querySelector(".filter-tag[data-type='region']");
+                if (existing) existing.remove();
+
+                if (regionStr) {
+                    const tag = document.createElement("div");
+                    tag.className = "filter-tag";
+                    tag.dataset.type = "region";
+                    tag.innerHTML = `${regionStr} <button type="button">&times;</button>`;
+                    tag.querySelector("button").addEventListener("click", () => {
+                        tag.remove();
+                        document.getElementById("sidoSelect").value = "";
+                        document.getElementById("gugunSelect").innerHTML = "<option value=''>구/군 선택</option>";
+                        document.getElementById("dongSelect").innerHTML = "<option value=''>동/읍/면 선택</option>";
+                        document.getElementById("regionDisplay").value = "";
+                        document.getElementById("region").value = "";
+                    });
+                    selectedFiltersContainer.appendChild(tag);
+                }
+            };
+
+            document.addEventListener("click", (e) => {
+                const dropdown = document.getElementById("dayDropdown");
+                if (!dropdown.contains(e.target)) dropdown.classList.remove("open");
+            });
+            document.getElementById("resetBtn").addEventListener("click", () => {
+    // 돌봄 형태 초기화
+    const careTypeSelect = document.querySelector("select[name='careType']");
+    careTypeSelect.value = "";
+    const careTypeTag = document.querySelector(".filter-tag[data-type='careType']");
+    if (careTypeTag) careTypeTag.remove();
+
+    // 요일 체크박스 초기화
+    const dayCheckboxes = document.querySelectorAll("#dayDropdown input[type='checkbox']");
+    dayCheckboxes.forEach(cb => cb.checked = false);
+    const dayTag = document.querySelector(".filter-tag[data-type='day']");
+    if (dayTag) dayTag.remove();
+
+    // 시간 필터 초기화
+    const startTime = document.querySelector("select[name='startTime']");
+    const endTime = document.querySelector("select[name='endTime']");
+    startTime.value = "";
+    endTime.value = "";
+    const timeTag = document.querySelector(".filter-tag[data-type='time']");
+    if (timeTag) timeTag.remove();
+
+    // 지역 초기화
+    document.getElementById("regionDisplay").value = "";
+    document.getElementById("region").value = "";
+    document.getElementById("sidoSelect").value = "";
+    document.getElementById("gugunSelect").innerHTML = "<option value=''>구/군 선택</option>";
+    document.getElementById("dongSelect").innerHTML = "<option value=''>동/읍/면 선택</option>";
+    const regionTag = document.querySelector(".filter-tag[data-type='region']");
+    if (regionTag) regionTag.remove();
+
+
+    // 자격증 필터 초기화
+    const hasCertificateSelect = document.querySelector("select[name='hasCertificate']");
+    hasCertificateSelect.value = "";
+    const certificateTag = document.querySelector(".filter-tag[data-type='hasCertificate']");
+    if (certificateTag) certificateTag.remove();
+
+
+
+    document.getElementById("hiddenSido").value = "";
+    document.getElementById("hiddenGugun").value = "";
+    document.getElementById("hiddenDong").value = "";
+    document.getElementById('filterForm').submit();
+
+    });
+
+
+        });
+
+        function toggleDayDropdown() {
+            document.getElementById("dayDropdown").classList.toggle("open");
+        }
+
+    </script>
+
+    <script>
+        function removeFilter(type) {
+            const url = new URL(window.location.href);
+            if (type === 'careType') {
+                url.searchParams.delete('careType');
+            } else if (type === 'region') {
+                url.searchParams.delete('region');
+            } else if (type === 'day') {
+                url.searchParams.delete('day');
+            } else if (type === 'time') {
+                url.searchParams.delete('startTime');
+                url.searchParams.delete('endTime');
+            } else if (type === 'hasCertificate') {
+                url.searchParams.delete('hasCertificate');
+            }
+            window.location.href = url.toString();
+        }
+        function syncSelectedRegionValues() {
+            const sido = document.getElementById("sidoSelect").value;
+            const gugun = document.getElementById("gugunSelect").value;
+            const dong = document.getElementById("dongSelect").value;
+
+            document.getElementById("hiddenSido").value = sido;
+            document.getElementById("hiddenGugun").value = gugun;
+            document.getElementById("hiddenDong").value = dong;
+        }
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const selectedSido = document.getElementById("hiddenSido")?.value;
+    const selectedGugun = document.getElementById("hiddenGugun")?.value;
+    const selectedDong = document.getElementById("hiddenDong")?.value;
+
+    if (selectedSido) {
+        document.getElementById("sidoSelect").value = selectedSido;
+        setTimeout(() => {
+            updateGugun();
+            setTimeout(() => {
+                document.getElementById("gugunSelect").value = selectedGugun || "";
+                updateDong();
+                setTimeout(() => {
+                    document.getElementById("dongSelect").value = selectedDong || "";
+                }, 300);
+            }, 300);
+        }, 300);
+    }
+    });
+
+    </script>
+
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <h2 class="board-title">돌보미 이력서 둘러보기</h2>
+        <form id="filterForm" method="get" th:action="@{/sitterBoard}">
+            <div class="filter-bar">
+                <!-- 지역 -->
+                <div class="form-row">
+                    <input type="text" class="filter-select" id="regionDisplay" name="regionDisplay" readonly placeholder="지역" onclick="toggleRegionSelector()" th:value="${region}" />
+                    <div id="regionSelector" class="region-select-wrap"  th:classappend="${region != null and !region.isEmpty()} ? '' : ' hidden'">
+                        <select id="sidoSelect" onchange="syncSelectedRegionValues(); updateGugun(); updateRegionTag(); document.getElementById('filterForm').submit();">
+                            <option value="">시/도 선택</option>
+                            <option th:each="sido : ${sidoList}"
+                                    th:value="${sido}" th:text="${sido}"
+                                    th:selected="${sido} == ${sidoSelected}">
+                            </option>
+                        </select>
+
+                        <select id="gugunSelect" onchange="syncSelectedRegionValues(); updateDong(); updateRegionTag(); document.getElementById('filterForm').submit();">
+
+                            <option value="">구/군 선택</option>
+                        </select>
+
+                        <select id="dongSelect" onchange="syncSelectedRegionValues(); updateRegionTag(); document.getElementById('filterForm').submit();">
+                            <option value="">동/읍/면 선택</option>
+                        </select>
+
+                        <input type="hidden" name="region" id="region" th:value="${region}" />
+                        <input type="hidden" name="sido" id="hiddenSido" th:value="${sidoSelected}" />
+                        <input type="hidden" name="gugun" id="hiddenGugun" th:value="${gugunSelected}" />
+                        <input type="hidden" name="dong" id="hiddenDong" th:value="${dongSelected}" />
+
+                    </div>
+
+                </div>
+
+                <!-- 돌봄 형태 -->
+                <select name="careType" class="filter-select" onchange="document.getElementById('filterForm').submit();">
+                    <option value="">돌봄 형태</option>
+                    <option value="정기" th:selected="${careType} == '정기'">정기</option>
+                    <option value="일시" th:selected="${careType} == '일시'">일시</option>
+                    <option value="긴급" th:selected="${careType} == '긴급'">긴급</option>
+                </select>
+
+                <!-- 요일 드롭다운 -->
+                <div class="day-dropdown" id="dayDropdown">
+                    <div class="day-dropdown-toggle" onclick="toggleDayDropdown()">요일 선택</div>
+                    <div class="day-dropdown-content">
+                        <label th:each="dayOption : ${daysOfWeek}">
+                            <input type="checkbox" th:value="${dayOption}" name="day"
+                                   th:checked="${days.contains(dayOption)}"
+                                   onchange="document.getElementById('filterForm').submit();" />
+                            <span th:text="${dayOption}"></span><br/>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 시간 필터 -->
+                <select name="startTime" class="filter-select" onchange="document.getElementById('filterForm').submit();">
+                    <option value="">시작 시간</option>
+                    <option th:each="time : ${timeOptions}" th:value="${time}" th:text="${time}" th:selected="${startTime} == ${time}"></option>
+                </select>
+                <select name="endTime" class="filter-select" onchange="document.getElementById('filterForm').submit();">
+                    <option value="">종료 시간</option>
+                    <option th:each="time : ${timeOptions}" th:value="${time}" th:text="${time}" th:selected="${endTime} == ${time}"></option>
+                </select>
+                <!-- 자격증 유무 -->
+                <select name="hasCertificate" class="filter-select" onchange="document.getElementById('filterForm').submit();">
+                    <option value="">자격증 여부</option>
+                    <option value="true" th:selected="${hasCertificate} == 'true'">자격증 있음</option>
+                    <option value="false" th:selected="${hasCertificate} == 'false'">자격증 없음</option>
+                </select>
+
+                <!-- 초기화 버튼 -->
+                <button type="button" id="resetBtn" class="reset-btn">초기화</button>
+            </div>
+        </form>
+
+        <!-- 선택된 필터 태그 -->
+        <div id="selectedFilters" class="selected-filters">
+            <div th:if="${careType != null && !careType.isEmpty()}" class="filter-tag" data-type="careType">
+                <span th:text="${careType}">돌봄 형태</span>
+                <button type="button" onclick="removeFilter('careType')">&times;</button>
+            </div>
+
+            <div th:if="${region != null && !region.isEmpty()}" class="filter-tag" data-type="region">
+                <span th:text="${region}">지역</span>
+                <button type="button" onclick="removeFilter('region')">&times;</button>
+            </div>
+
+            <div th:if="${days != null && !days.isEmpty()}" class="filter-tag" data-type="day">
+                <span th:text="${#strings.listJoin(days, ', ')}">요일</span>
+                <button type="button" onclick="removeFilter('day')">&times;</button>
+            </div>
+
+            <div  th:if="${(startTime != null and startTime != '') or (endTime != null and endTime != '')}"  class="filter-tag" data-type="time">
+                <span th:text="${startTime} + ' ~ ' + ${endTime}">시간</span>
+                <button type="button" onclick="removeFilter('time')">&times;</button>
+            </div>
+
+            <div th:if="${hasCertificate == 'true'}" class="filter-tag" data-type="hasCertificate">
+                <span>자격증 있음</span>
+                <button type="button" onclick="removeFilter('hasCertificate')">&times;</button>
+            </div>
+            <div th:if="${hasCertificate == 'false'}" class="filter-tag" data-type="hasCertificate">
+                <span>자격증 없음</span>
+                <button type="button" onclick="removeFilter('hasCertificate')">&times;</button>
+            </div>
+
+
+        </div>
+
+        <!-- 카드 목록 -->
+        <div class="card-container">
+            <div class="care-card" th:each="resume : ${resumeFormList}">
+                <div class="card-content">
+                    <!-- 왼쪽 텍스트 영역 -->
+                    <div class="card-left">
+                        <div class="card-header">
+                            <div class="review-rating" th:text="${averageStarMap[resume.memNum] != null ? '★'.repeat(T(java.lang.Math).round(averageStarMap[resume.memNum])) + '☆'.repeat(5 - T(java.lang.Math).round(averageStarMap[resume.memNum])) : '☆☆☆☆☆'}"></div>
+                            <strong th:text="${resume.careType} + ' 돌봄'"></strong>
+                        </div>
+                        <div class="card-body">
+                            <p th:text="'요일: ' + ${resume.careDay}">요일</p>
+                            <p th:text="'시간: ' + ${resume.careStartTime.substring(0,5)} + ' ~ ' + ${resume.careEndTime.substring(0,5)}">시간</p>
+                            <p th:text="'지역: ' + ${resume.region}">지역</p>
+                            <p th:text="'경력: ' + ${resume.career}">경력</p>
+                            <!--              <p th:text="'자격증: ' + ${resume.certificateText}">자격증</p>-->
+                            <p th:if="${resume.certificateText}" th:text="'자격증: ' + ${resume.certificateText}">자격증</p>
+
+                            <!--              <p th:text="'보유 자격: ' + ${resume.qualification}">자격</p>-->
+                            <p class="card-description" th:text="'자기소개: ' + ${resume.introduction}">자기소개</p>
+                            <!--              <p>예약 가능</p>-->
+                        </div>
+                    </div>
+
+                    <!-- 오른쪽 프로필 이미지 및 버튼 -->
+                    <div class="card-right">
+                        <div class="profile-image">
+                            <img th:if="${resume.photoUrl != null and !#strings.isEmpty(resume.photoUrl)}" th:src="@{${resume.photoUrl}}" alt="프로필 이미지" />
+                            <img th:unless="${resume.photoUrl != null and !#strings.isEmpty(resume.photoUrl)}" src="../images/member_profile.png" alt="기본 이미지" />
+                        </div>
+                        <a class="apply-btn" th:href="@{'/resumeDetail?memNum=' + ${resume.memNum}}">자세히 보기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</th:block>
+</body>
+
+</html>

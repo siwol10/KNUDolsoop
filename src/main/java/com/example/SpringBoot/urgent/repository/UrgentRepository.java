@@ -88,8 +88,8 @@ public class UrgentRepository {
         return sql.selectList("urgent.findFormsByRegion", params);
     }
 
-    public int countFormsByRegion() {
-        return sql.selectOne("urgent.countFormsByRegion");
+    public int countFormsByRegion(String region) {
+        return sql.selectOne("urgent.countFormsByRegion", region);
     }
 
     public List<Long> findExpiredForms() {

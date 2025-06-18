@@ -11,10 +11,11 @@
 <th:block layout:fragment="content">
     <section>
         <h4>긴급 돌봄</h4>
-        <p>※긴급 돌봄 지원 시 수락 대기 과정없이 바로 매칭됩니다.</p>
+        <p>※ 긴급 돌봄 지원 시 수락 대기 과정없이 바로 매칭됩니다.</p>
+        <p>※ 동일한 지역으로 설정된 보호자의 공고만 보입니다.</p>
 
-        <div class="frame">
-            <div class="container" th:if="${formList.size() != 0}">
+        <div class="frame" th:if="${formList.size() != 0}">
+            <div class="container">
                 <div class="card" th:each="list, cardIndex: ${formList}">
                     <div class="title">
                         <p th:text="${list.category}">[유형]</p>
@@ -90,17 +91,23 @@
                 </div>
             </div>
 
-            <div class="pageBar" th:if="${totalPages > 1}">
-                <a th:if="${currentPage > 1}" th:href="@{/urgent(page=${currentPage - 1})}">◁</a>
-                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                    <a th:href="@{/urgent(page=${i})}"><span th:text="${i}"></span></a>
-                </span>
-                <a th:if="${currentPage < totalPages}" th:href="@{/urgent(page=${currentPage + 1})}">▷</a>
+            <div class="pageBar">
+                <a th:href="@{|/urgent?page=1|}" th:class="'page-button ' + (${currentPage == 1} ? 'invisible' : '')">«</a>
+                <a th:href="@{|/urgent?page=${currentPage - 1}|}" th:class="'page-button ' + (${currentPage == 1} ? 'invisible' : '')">‹</a>
+
+                <div class="pageNum">
+                    <span th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                        <a th:href="@{|/urgent?page=${i}|}" th:text="${i}" th:class="'page-button ' + (${i == currentPage} ? 'current' : '')"></a>
+                    </span>
+                </div>
+
+                <a th:href="@{|/urgent?page=${currentPage + 1}|}" th:class="'page-button ' + (${currentPage == totalPages} ? 'invisible' : '')">›</a>
+                <a th:href="@{|/urgent?page=${totalPages}|}" th:class="'page-button ' + (${currentPage == totalPages} ? 'invisible' : '')">»</a>
             </div>
         </div>
 
         <div class="frame" th:unless="${formList.size() != 0}">
-            <b id="noForm">긴급 돌봄 공고가 없습니다.</b>
+            <p id="noForm">긴급 돌봄 공고가 없습니다.</p>
         </div>
     </section>
 </th:block>

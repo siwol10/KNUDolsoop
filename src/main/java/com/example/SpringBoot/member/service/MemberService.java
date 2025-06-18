@@ -26,4 +26,7 @@ public class MemberService {
         return memberRepository.findById(id);
     }
 
+    public MemberDTO findByMemNum(String memNum){
+        return memberRepository.findByMemNum(memNum);
+    }
 }

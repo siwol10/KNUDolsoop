@@ -18,6 +18,82 @@
     <select id="findByMemNum" parameterType="long" resultType="com.example.SpringBoot.careForm.dto.CareFormDTO">
         SELECT * FROM care_form WHERE mem_num = #{memNum}
     </select>
+    <select id="findAll" resultType="com.example.SpringBoot.careForm.dto.CareFormDTO">
+        SELECT * FROM care_form
+    </select>
+    <select id="findByFilters" parameterType="map" resultType="com.example.SpringBoot.careForm.dto.CareFormDTO">
+        SELECT *
+        FROM care_form
+        WHERE 1=1
+        <if test="careType != null and careType != ''">
+            AND care_type = #{careType}
+        </if>
+        <if test="days != null and days.size > 0">
+            <foreach item="day" index="index" collection="days" open="AND (" separator="OR" close=")">
+                care_day LIKE CONCAT('%', #{day}, '%')
+            </foreach>
+        </if>
+        <if test="startTime != null and startTime != ''">
+            AND care_start_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND care_end_time &lt;= #{endTime}
+        </if>
+        <if test="region != null and region != ''">
+            AND region LIKE CONCAT('%', #{region}, '%')
+        </if>
+    </select>
 
+    <insert id="saveReservation" parameterType="com.example.SpringBoot.reservation.dto.ReservationDTO"
+            useGeneratedKeys="true" keyProperty="resNum">
+        INSERT INTO reservation (state, choice_type, content, mem_num, target_num)
+        VALUES (#{state}, #{choiceType}, #{content}, #{memNum}, #{targetNum})
+    </insert>
 
+    <insert id="saveReservationDate" parameterType="com.example.SpringBoot.reservation.dto.ReservationDateDTO">
+        INSERT INTO reservation_date (res_date, res_num)
+        VALUES (#{resDate}, #{resNum})
+    </insert>
+
+    <select id="findReviewByTargetNum" parameterType="java.lang.String" resultType="com.example.SpringBoot.careForm.dto.ReviewForCareFormDTO">
+        select
+        rv.star,
+        rv.comment,
+        m.name
+        from
+        member m,
+        review rv
+        where
+        m.mem_num = rv.writer
+        and rv.receiver = #{targetNum}
+    </select>
+
+    <update id="updateCareForm" parameterType="com.example.SpringBoot.careForm.dto.CareFormDTO">
+        UPDATE care_form
+        SET title = #{title},
+        region = #{region},
+        care_type = #{careType},
+        care_day = #{careDay},
+        care_start_time = #{careStartTime},
+        care_end_time = #{careEndTime},
+        pay = #{pay},
+        request = #{request}
+        WHERE mem_num = #{memNum}
+    </update>
+
+    <delete id="deleteCareForm" parameterType="Long">
+        DELETE
+        FROM care_form
+        WHERE mem_num = #{memNum}
+    </delete>
+    <select id="findAverageStarsForAllSitters" resultType="com.example.SpringBoot.review.dto.ReviewAverageNoArgsDTO">
+        SELECT
+        receiver AS memNum,
+        AVG(star) AS average,
+        COUNT(*) AS count
+        FROM
+        review
+        GROUP BY
+        receiver
+    </select>
 </mapper>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>알림장 확인</title>
+    <link rel="stylesheet" th:href="@{/css/reportView.css}">
+</head>
+
+<body>
+<div class="frame">
+    <div class="DateBar">
+        <a th:style="'visibility:' + (${preNum != null} ? 'visible' : 'hidden')" th:href="@{'/myPage/reservation/report/view?res=' + ${resNum} + '&report='  + ${preNum}}">◀</a>
+        <span th:text="${report.careDate}">0000-00-00</span>
+        <a th:style="'visibility:' + (${nextNum != null} ? 'visible' : 'hidden')" th:href="@{'/myPage/reservation/report/view?res=' + ${resNum} + '&report='  + ${nextNum}}">▶</a>
+    </div>
+    <textarea name="content" rows="20" cols="70" readonly th:text="${report.content}"></textarea>
+    <br>
+    <button type="button" class="buttonStyle" onclick="window.close();">확인</button>
+</div>
+</body>
+</html>

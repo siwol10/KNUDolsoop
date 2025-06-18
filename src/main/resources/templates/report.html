@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>알림장 작성</title>
+    <link rel="stylesheet" th:href="@{/css/report.css}">
+</head>
+
+<body>
+<div>
+    <form method="post" th:action="@{/myPage/reservation/report/save}" th:object="${report}">
+        <span>돌봄 날짜: </span>
+        <input type="date" name="careDate" required>
+        <br>
+        <textarea name="content" placeholder="활동 내용 및 전달 사항을 작성해 주세요." rows="20" cols="70" required th:field="*{content}"></textarea>
+        <br>
+        <input type="hidden" name="resNum" th:value="${resNum}">
+        <button type="submit" class="buttonStyle">저장</button>
+    </form>
+
+    <script th:inline="javascript" th:if="${error != null}">
+        alert([[${error}]]);
+    </script>
+</div>
+</body>
+</html>

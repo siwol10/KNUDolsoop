@@ -4,16 +4,23 @@
 
     <div id="topnavbar--wrap">
         <ul class="nav justify-content-end">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" th:href=@{/signUpPick}>회원가입</a>
+            <!-- 로그인하지 않은 경우: 회원가입 / 로그인 표시 -->
+            <li class="nav-item" th:if="${session.loginMember == null}">
+                <a class="nav-link active" aria-current="page" th:href="@{/signUpPick}">회원가입</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href=@{/login}>로그인</a>
+            <li class="nav-item" th:if="${session.loginMember == null}">
+                <a class="nav-link" th:href="@{/login}">로그인</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">공지사항</a>
+
+            <!-- 로그인한 경우: 마이페이지 / 로그아웃 표시 -->
+            <li class="nav-item" th:if="${session.loginMember != null}">
+                <a class="nav-link" th:href="@{/myPage}">마이페이지</a>
+            </li>
+            <li class="nav-item" th:if="${session.loginMember != null}">
+                <a class="nav-link" th:href="@{/logout}">로그아웃</a>
             </li>
         </ul>
+
     </div>
     <div id="navbar-nav--wrap">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -35,7 +42,7 @@
                                 돌보미
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">이력서 둘러보기</a></li>
+                                <li><a class="dropdown-item" th:href=@{/sitterBoard}>이력서 둘러보기</a></li>
                                 <li><a class="dropdown-item" th:href=@{/resume}>이력서 작성하기</a></li>
                             </ul>
                         </li>
@@ -45,7 +52,7 @@
                                 보호자
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">돌봄요청공고</a></li>
+                                <li><a class="dropdown-item" th:href=@{/parentsBoard}>돌봄요청공고</a></li>
                                 <li><a class="dropdown-item" th:href=@{/careForm}>돌봄신청</a></li>
                             </ul>
                         </li>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fileObject">
+
+    <insert id="insert" parameterType="com.example.SpringBoot.file.dto.FileObjectDTO">
+        INSERT INTO file_object (reference_type, reference_id, file_type, url, original_name)
+        VALUES (#{referenceType}, #{referenceId}, #{fileType}, #{url}, #{originalName})
+    </insert>
+
+    <select id="findByReference" parameterType="map" resultType="com.example.SpringBoot.file.dto.FileObjectDTO">
+        SELECT * FROM file_object
+        WHERE reference_type = #{referenceType}
+        AND reference_id = #{referenceId}
+        AND file_type = #{fileType}
+        ORDER BY uploaded_at
+    </select>
+
+    <select id="findById" resultType="com.example.SpringBoot.file.dto.FileObjectDTO" parameterType="long">
+        SELECT * FROM file_object WHERE id = #{id}
+    </select>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM file_object WHERE id = #{id}
+    </delete>
+
+</mapper>

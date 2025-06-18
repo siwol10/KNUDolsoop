@@ -19,4 +19,16 @@ public class MessageRepository {
         param.put("agreement", agreement);
         sql.insert("Message.save", param);
     }
+
+    public boolean findByMemNum(Long memNum) {
+        return sql.selectOne("Message.findByMemNum", memNum);
+    }
+
+    public void update(Long memNum, boolean agreement) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("memNum", memNum);
+        param.put("agreement", agreement);
+
+        sql.insert("Message.update", param);
+    }
 }

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>돌숲</title>
+    <link rel="stylesheet" th:href="@{/css/reservationListOngoing.css}">
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <section>
+        <h4>예약 확인</h4>
+
+        <div class="menuGroup">
+            <span>◦ <a href="/myPage/reservation/new">새로운 예약</a></span>
+            <span class="middle">◦ <a href="" style="color: #08612C;">예약 목록</a></span>
+            <span>◦ <a href="/myPage/reservation/applied">예약 신청 내역</a></span>
+            <br><br>
+            <div class="menuDetail">
+                <div>
+                    <span class="ingRes" onclick="location.href='/myPage/reservation/ongoing'">진행 중인 예약</span>
+                    <span class="finishRes" onclick="location.href='/myPage/reservation/completed'">완료된 예약</span>
+                    <span class="dropRes" onclick="location.href='/myPage/reservation/dropped'">진행되지 않은 예약</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="frame"  th:if="${reservationList.size() != 0}">
+            <div class="container">
+                <div class="item" th:each="list: ${reservationList}">
+                    <div class="left">
+                        <p class="state" th:if="${list.state == '진행 중'}" style="color: blue;">진행 중</p>
+                        <p class="state" th:if="${list.state == '예정'}" style="color: purple;">예정</p>
+                        <br>
+                        <p class="title" th:text="${list.name} + '님과의 예약'"></p>
+                        <br>
+                        <div class="element">
+                            <p th:text="'날짜: ' + ${list.dateSummary}">날짜</p>
+                            <details>
+                                <summary>전달 내용</summary>
+                                <p th:text="${list.content}"></p>
+                            </details>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <a class="top-right" th:if="${memType == 'SITTER'}" th:href="@{'/careFormDetail?memNum=' + ${list.memNum} + '&type=view'}">신청서 확인</a>
+                        <a class="top-right" th:if="${memType == 'PARENTS'}" th:href="@{'/resumeDetail?memNum=' + ${list.memNum} + '&type=view'}">이력서 확인</a>
+
+                        <div class="bottom-right">
+                            <button type="button" class="buttonStyle" th:if="${(memType == 'SITTER') and (list.state == '진행 중')}"
+                                    th:onclick="|window.open('/myPage/reservation/report?res=${list.resNum}', '알림장 작성', 'width=700, height=450, left=100, top=50')|">알림장 작성</button>
+                            <button type="button" class="buttonStyle" id="checkBtn" th:if="${(memType == 'PARENTS') and (list.state == '진행 중')}"
+                                    th:onclick="|window.open('/myPage/reservation/report/view?res=${list.resNum}', '알림장 확인', 'width=700, height=450, left=100, top=50')|">알림장 확인</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pageBar">
+                <a th:href="@{|/myPage/reservation/ongoing?page=1|}" th:class="'page-button ' + (${currentPage == 1} ? 'invisible' : '')">«</a>
+                <a th:href="@{|/myPage/reservation/ongoing?page=${currentPage - 1}|}" th:class="'page-button ' + (${currentPage == 1} ? 'invisible' : '')">‹</a>
+
+                <div class="pageNum">
+                    <span th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                        <a th:href="@{|/myPage/reservation/ongoing?page=${i}|}" th:text="${i}" th:class="'page-button ' + (${i == currentPage} ? 'current' : '')"></a>
+                    </span>
+                </div>
+
+                <a th:href="@{|/myPage/reservation/ongoing?page=${currentPage + 1}|}" th:class="'page-button ' + (${currentPage == totalPages} ? 'invisible' : '')">›</a>
+                <a th:href="@{|/myPage/reservation/ongoing?page=${totalPages}|}" th:class="'page-button ' + (${currentPage == totalPages} ? 'invisible' : '')">»</a>
+            </div>
+        </div>
+
+        <div class="frame" th:unless="${reservationList.size() != 0}">
+            <p id="noForm">예정 및 진행 중인 예약이 없습니다.</p>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>

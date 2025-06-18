@@ -2,16 +2,59 @@ body {
     font-family: Arial, sans-serif;
 }
 
-.careForm-container {
-    width: 600px;
-    margin: 50px auto;
-}
-
 .careForm-title {
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 30px;
+    margin: 60px;
+}
+
+.careForm-container {
+    width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+}
+
+/* 왼쪽 패널: 후기 영역 */
+.left-panel {
+    width: 250px;
+}
+
+.review {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 20px 0px;
+}
+
+.review-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    min-height: 120px;
+    background-color: #f9f9f9;
+}
+
+.review-rating {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffcc00;
+    margin-bottom: 5px;
+}
+
+.review-writer {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.review-content {
+    line-height: 1.4;
+}
+
+/* 오른쪽 패널 */
+.right-panel {
+    flex: 1;
 }
 
 .form-group {
@@ -26,7 +69,6 @@ body {
 }
 
 .form-group input,
-.form-group select,
 .form-group textarea {
     flex: 1;
     padding: 8px;
@@ -37,13 +79,6 @@ body {
 textarea {
     height: 100px;
     resize: none;
-}
-
-.form-group input[type="file"] {
-    padding: 0;
-    border: none;
-    background-color: transparent;
-    box-shadow: none;
 }
 
 .submit-btn {
@@ -66,5 +101,20 @@ textarea {
 
 .button-box {
     text-align: center;
-    margin-top: 30px;
+    margin: 40px 0 60px;
+}
+
+.buttonStyle {
+    border-radius: 5px;
+    padding: 8px 30px;
+    margin: 20px;
+    border-style: solid;
+    border-color: #08612C;
+    text-align: center;
+    background-color: #08612C;
+    color: white;
+}
+
+.buttons {
+    text-align: center;
 }

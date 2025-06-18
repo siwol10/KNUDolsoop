@@ -49,13 +49,15 @@ public class UrgentController {
 
     // 신청서 저장
     @PostMapping("/urgent/form")
-    public String saveForm(UrgentFormDTO urgentFormDTO, HttpSession session) {
+    public String saveForm(UrgentFormDTO urgentFormDTO, HttpSession session, Model model) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
         urgentFormDTO.setMemNum(loginMember.getMemNum());
         String region = urgentFormDTO.getRegion();
         urgentService.saveForm(urgentFormDTO, region);
 
-        return "redirect:/urgent"; // 추후에 작성 완료 화면 넣기
+        model.addAttribute("message","신청서 작성이 완료되었습니다.");
+        model.addAttribute("searchUrl","/urgent");
+        return "message";
     }
 
     // 신청서 작성 목록 (보호자)
@@ -72,16 +74,21 @@ public class UrgentController {
         Long memNum = loginMember.getMemNum();
 
         int pageSize = 20;
-
         List<UrgentFormDTO> formList = urgentService.findMyForms(memNum, page, pageSize);
         int totalCount = urgentService.countMyForms(memNum);
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
+        int blockSize = 5;
+        int currentBlock = (page - 1) / blockSize;
+        int startPage = currentBlock * blockSize + 1;
+        int endPage = Math.min(startPage + blockSize - 1, totalPages);
+
         model.addAttribute("formList", formList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         model.addAttribute("today", LocalDate.now());
-
 
         return "myUrgentForms";
     }
@@ -99,8 +106,9 @@ public class UrgentController {
 
         UrgentFormDTO urgentFormDTO = urgentService.formView(formNum);
 
-        if(!loginMember.getMemNum().equals(urgentFormDTO.getMemNum())){
-            return "redirect:/";
+        if(loginMember.getMemNum() != urgentFormDTO.getMemNum()){
+            model.addAttribute("message","다시 시도해주세요.");
+            model.addAttribute("searchUrl","/urgent/myForms");
         }
 
         String memType = loginMember.getMemberType();
@@ -149,9 +157,16 @@ public class UrgentController {
         int totalCount = urgentService.countMyReservations(memNum);
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
+        int blockSize = 5;
+        int currentBlock = (page - 1) / blockSize;
+        int startPage = currentBlock * blockSize + 1;
+        int endPage = Math.min(startPage + blockSize - 1, totalPages);
+
         model.addAttribute("resList", resList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         model.addAttribute("today", LocalDate.now());
 
         return "myUrgentReservations";
@@ -159,11 +174,10 @@ public class UrgentController {
 
     // 긴급 돌봄 공고
     @GetMapping("/urgent")
-    public String findAllForms(@RequestParam(value = "page", defaultValue = "1") int page,HttpSession session, Model model) {
-        int pageSize = 30;
+    public String findAllForms(@RequestParam(value = "page", defaultValue = "1") int page, HttpSession session, Model model) {
+        int pageSize = 15;
         int totalCount, totalPages;
         List<UrgentFormDTO> formList;
-
 
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
         if(loginMember == null) {
@@ -177,15 +191,22 @@ public class UrgentController {
             String region = loginMember.getRegion();
 
             formList = urgentService.findFormsByRegion(region, page, pageSize);
-            totalCount = urgentService.countFormsByRegion();
+            totalCount = urgentService.countFormsByRegion(region);
             totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
             model.addAttribute("memType", memType);
         }
 
+        int blockSize = 5;
+        int currentBlock = (page - 1) / blockSize;
+        int startPage = currentBlock * blockSize + 1;
+        int endPage = Math.min(startPage + blockSize - 1, totalPages);
+
         model.addAttribute("formList", formList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
 
         return "urgentBoard";
     }

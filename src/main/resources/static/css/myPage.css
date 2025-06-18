@@ -1,0 +1,52 @@
+h4 {
+    font-weight: 700;
+    margin: 60px;
+}
+
+section {
+    margin: 80px 20%;
+}
+
+.frame {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    place-items: center;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.card {
+    background-color: #08612C;
+    width: 250px;
+    height: 250px;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+}
+
+p {
+    margin: 30px;
+    font-size: 1.4em;
+    font-weight: bold;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    color: white;
+}
+
+img {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    bottom: 20px;
+    right: 20px;
+}
+
+.first{
+    bottom: 5px;
+    right: 12px;
+    color: white;
+    width: 115px;
+    height: 115px;
+}

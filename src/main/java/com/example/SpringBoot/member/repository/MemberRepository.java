@@ -18,4 +18,11 @@ public class MemberRepository {
     public MemberDTO findById(String id) {
         return sql.selectOne("Member.findById", id);
     }
+    public MemberDTO findByMemNum(String memNum) {
+        return sql.selectOne("Member.findByMemNum", memNum);
+    }
+
+    public void updateMember(MemberDTO memberDTO) {
+        sql.update("Member.updateMember", memberDTO);
+    }
 }

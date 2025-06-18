@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>돌숲</title>
+    <link rel="stylesheet" th:href="@{/css/review.css}">
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <section>
+        <h4>후기 작성</h4>
+
+        <form method="post" th:action="@{/myPage/reservation/review/save}">
+            <div class="container">
+                <div><b>별점</b><span class="essential">*</span></div>
+                <div class="radioButtons">
+                    <input type="radio" class="star" name="star" value="1" required>
+                    <input type="radio" class="star" name="star" value="2">
+                    <input type="radio" class="star" name="star" value="3">
+                    <input type="radio" class="star" name="star" value="4">
+                    <input type="radio" class="star" name="star" value="5">
+                </div>
+
+                <div><b>한줄 코멘트</b><span class="essential">*</span></div>
+                <input type="text" name="comment" maxlength="50" required>
+
+
+                <label><b>상세 후기</b></label>
+                <textarea name="detail" rows=10></textarea>
+                <input type="hidden" name="resNum" th:value="${resNum}">
+                <input type="hidden" name="writer" th:value="${writer}">
+                <input type="hidden" name="receiver" th:value="${receiver}">
+            </div>
+
+            <div class="buttons">
+                <button type="button" class="buttonStyle" id="backBtn" onclick="history.back()">취소</button>
+                <button type="submit" class="buttonStyle" id="subBtn">등록</button>
+            </div>
+        </form>
+    </section>
+</th:block>
+</body>
+</html>

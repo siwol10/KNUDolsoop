@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>알림</title>
+    <script th:inline="javascript">
+        var message = [[${message}]];
+        alert(message);
+        window.close();
+    </script>
+</head>
+<body>
+</body>
+</html>

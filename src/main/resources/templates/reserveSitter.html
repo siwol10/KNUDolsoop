@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <title>돌봄 요청하기</title>
+    <link rel="stylesheet" th:href="@{/css/reserveSitter.css}">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <div class="div-container">
+        <div class="body-head">돌봄 요청하기</div>
+
+        <form method="post" th:action="@{/resumeDetail/reserve}">
+            <!-- 캘린더 -->
+            <div class="calendar">
+                <div class="calendar-text">날짜 선택</div>
+                <div class="calendar-show">
+                    <div id="calendar" th:data-alloweddays="${allowedDays}"></div>
+                </div>
+            </div>
+
+            <!-- 선택한 날짜 표시 -->
+            <div class="date-pick">
+                <div class="date-pick-text">선택한 날짜</div>
+                <div class="date-pick-show" id="selected-dates-container"></div>
+            </div>
+
+            <!-- 메시지 -->
+            <div class="send">
+                <div class="send-text">전달하실 말씀</div>
+                <textarea class="send-text-input" name="content"></textarea>
+            </div>
+
+            <!-- 동의 -->
+            <div class="agree">
+                <input type="checkbox" id="agree-box" name="agree-box"/>
+                <label for="agree-box"> 신청서 열람에 동의합니다. </label>
+            </div>
+
+            <!-- hidden 데이터 -->
+            <input type="hidden" id="selectedDates" name="selectedDates">
+            <input type="hidden" name="targetNum" th:value="${resume.memNum}">
+
+            <!-- 버튼 -->
+            <div class="button">
+                <button class="button-cancel" type="button">취소</button>
+                <button class="button-register" type="submit">등록</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const calendarEl = document.getElementById('calendar');
+            const allowedDays = JSON.parse(calendarEl.getAttribute('data-alloweddays') || '[]');
+            const selectedDatesSet = new Set();
+            const selectedDatesInput = document.getElementById('selectedDates');
+            const selectedDatesContainer = document.getElementById('selected-dates-container');
+            const today = new Date();
+
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                selectable: true,
+                validRange: { start: today.toISOString().split('T')[0] },
+                selectAllow: function (selectInfo) {
+                    const day = new Date(selectInfo.startStr).getDay();
+                    return allowedDays.includes(day);
+                },
+                dateClick: function (info) {
+                    const clickedDate = new Date(info.dateStr);
+                    const clickedDay = clickedDate.getDay();
+                    if (clickedDate < today || !allowedDays.includes(clickedDay)) return;
+
+                    if (selectedDatesSet.has(info.dateStr)) {
+                        selectedDatesSet.delete(info.dateStr);
+                        calendar.getEventById(info.dateStr)?.remove();
+                    } else {
+                        selectedDatesSet.add(info.dateStr);
+                        calendar.addEvent({
+                            id: info.dateStr,
+                            title: '✔ 선택됨',
+                            start: info.dateStr,
+                            allDay: true
+                        });
+                    }
+
+                    updateSelectedDatesDisplay();
+                }
+            });
+
+            function updateSelectedDatesDisplay() {
+                const sorted = Array.from(selectedDatesSet).sort();
+                selectedDatesInput.value = sorted.join(",");
+                selectedDatesContainer.innerHTML = sorted.map(date => {
+                    const d = new Date(date);
+                    return `${d.getMonth() + 1}월 ${d.getDate()}일`;
+                }).join(', ');
+            }
+
+            calendar.render();
+        });
+    </script>
+</th:block>
+</body>
+</html>

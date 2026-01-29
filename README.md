@@ -18,7 +18,9 @@
 - 정인서(BE,FE) - 웹 디자인, 마이페이지 및 긴급돌봄서비스 개발, DB 설계
 
 ## 개발 환경
- - Backend Framework : Spring Boot
+- Language : Java(17)
+
+ - Backend Framework : Spring Boot 3.4.5
  
  - Database : MySQL (AWS EC2 instance)
  
